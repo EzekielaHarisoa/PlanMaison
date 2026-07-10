@@ -1,11 +1,11 @@
 package com.maison.model;
 
-public class Position {
+public class PiecePosition {
 
     private int x;
     private int y;
 
-    public Position(int x, int y){
+    public PiecePosition(int x, int y){
         this.x = x;
         this.y = y;
     }

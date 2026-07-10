@@ -8,8 +8,8 @@ public class Piece {
     private String nom;
     private String type;
 
-    private Dimension dimension;
-    private Position position;
+    private PieceDimension pieceDimension;
+    private PiecePosition piecePosition;
 
     private List<Fenetre> fenetres;
     private List<Porte> portes;
@@ -21,9 +21,9 @@ public class Piece {
     public String getNom() {
         return nom;
     }
-    public Dimension getDimension() {return dimension;}
-    public Position getPosition() {
-        return position;
+    public PieceDimension getDimension() {return pieceDimension;}
+    public PiecePosition getPosition() {
+        return piecePosition;
     }
     public List<Fenetre> getFenetres() {
         return fenetres;
@@ -39,11 +39,11 @@ public class Piece {
     public void setType(String type) {
         this.type = type;
     }
-    public void setDimension(Dimension dimension) {
-        this.dimension = dimension;
+    public void setDimension(PieceDimension pieceDimension) {
+        this.pieceDimension = pieceDimension;
     }
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPosition(PiecePosition piecePosition) {
+        this.piecePosition = piecePosition;
     }
     public void setFenetres(List<Fenetre> fenetres) {
         this.fenetres = fenetres;
@@ -61,11 +61,11 @@ public class Piece {
     }
 
     //contructeur
-    public Piece( String nom, String type, Dimension dimension, Position position ) {
+    public Piece(String nom, String type, PieceDimension pieceDimension, PiecePosition piecePosition) {
         this.nom = nom;
         this.type = type;
-        this.dimension = dimension;
-        this.position = position;
+        this.pieceDimension = pieceDimension;
+        this.piecePosition = piecePosition;
         this.portes = new ArrayList<>();
         this.fenetres = new ArrayList<>();
     }

@@ -1,10 +1,10 @@
 package com.maison.model;
 
-public class Dimension {
+public class PieceDimension {
     private double longeur;
     private double largeur;
 
-    public Dimension(double longeur, double largeur) {
+    public PieceDimension(double longeur, double largeur) {
         this.longeur = longeur;
         this.largeur = largeur;
     }

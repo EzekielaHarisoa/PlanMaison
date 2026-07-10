@@ -5,8 +5,6 @@ import javax.swing.*;
 public class PiecePanel   {
 
     private JTextField textField3;
-    private JTextField textField5;
-    private JTextField textField6;
     private JTextField textField7;
     private JTextField textField8;
     private JTextField textField9;
@@ -16,8 +14,9 @@ public class PiecePanel   {
     private JPanel panelPiece;
     private JPanel piece;
     private JLabel titreLabel;
-
-
+    private JTextField textField1;
+    private JTextField textField2;
+    private JComboBox comboBox2;
 
 
     public PiecePanel(int numero) {
