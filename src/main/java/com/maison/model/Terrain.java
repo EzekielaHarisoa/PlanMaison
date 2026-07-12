@@ -6,7 +6,7 @@ public class Terrain {
     private double longeurterrain;
 
     public Terrain(double longeurterrain, double largeurTerrain) {
-        this.largeurTerrain = longeurterrain;
+        this.longeurterrain = longeurterrain;
         this.largeurTerrain = largeurTerrain;
     }
 

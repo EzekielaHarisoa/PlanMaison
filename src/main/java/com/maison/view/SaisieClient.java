@@ -1,20 +1,24 @@
 package com.maison.view;
 
+import com.maison.model.Terrain;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SaisieClient {
     private JPanel SaisieClient1;
 
-    private JTextField terrainField;
     private JLabel terrainLabel;
-    private JTextField maisonField;
 
     private JButton ajouterUnePieceButton;
     private JButton actualiserButton;
     private JButton genererButton;
 
     private JPanel panelList;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JTextField textField3;
+    private JTextField textField4;
 
     private int nbPiece = 0;
 
@@ -43,8 +47,9 @@ public class SaisieClient {
     }
 
     public void afficheEsquisse() {
+        Terrain terrain = new Terrain(600,500);
         JFrame frame = new JFrame("Esquisse");
-        EsquissePanel ep = new EsquissePanel();
+        EsquissePanel ep = new EsquissePanel(terrain);
         frame.add(ep);
         frame.setSize(800,600);
         frame.setLocationRelativeTo(null);

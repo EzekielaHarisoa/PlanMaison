@@ -6,7 +6,7 @@ import java.util.List;
 public class Maison {
 
     private double largeur;
-    private double longeur;
+    private double longueur;
 
     private List<Piece> pieces;
 
@@ -14,7 +14,7 @@ public class Maison {
 
     public Maison(double largeur, double longeur, Terrain terrain) {
         this.largeur = largeur;
-        this.longeur = longeur;
+        this.longueur = longeur;
         this.terrain = terrain;
         this.pieces = new ArrayList<>();
     }
@@ -29,10 +29,16 @@ public class Maison {
         return largeur;
     }
     public double getLongeur() {
-        return longeur;
+        return longueur;
     }
     public List<Piece> getPieces() {
         return pieces;
+    }
+    public Terrain getTerrain() {
+        return terrain;
+    }
+    public double getSurface() {
+        return largeur * longueur;
     }
 
     //setter
@@ -40,10 +46,13 @@ public class Maison {
         this.largeur = largeur;
     }
     public void setLongeur(double longeur) {
-        this.longeur = longeur;
+        this.longueur = longeur;
     }
     public void setPieces(List<Piece> pieces) {
         this.pieces = pieces;
+    }
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
     }
 
     @Override
@@ -52,5 +61,4 @@ public class Maison {
                 " nombrePieces=" + pieces.size() +
                 '}';
     }
-
 }

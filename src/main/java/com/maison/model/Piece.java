@@ -70,4 +70,12 @@ public class Piece {
         this.fenetres = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return "Piece{" +
+                "nom='" + nom + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
 }
