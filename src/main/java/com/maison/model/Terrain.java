@@ -3,10 +3,10 @@ package com.maison.model;
 public class Terrain {
 
     private double largeurTerrain;
-    private double longeurterrain;
+    private double longueurTerrain;
 
-    public Terrain(double longeurterrain, double largeurTerrain) {
-        this.largeurTerrain = longeurterrain;
+    public Terrain(double longueurTerrain, double largeurTerrain) {
+        this.longueurTerrain = longueurTerrain;
         this.largeurTerrain = largeurTerrain;
     }
 
@@ -14,14 +14,14 @@ public class Terrain {
     public double getLargeurTerrain() {
         return largeurTerrain;
     }
-    public double getLongeurterrain() {
-        return longeurterrain;
+    public double getLongueurTerrain() {
+        return longueurTerrain;
     }
-    public double getSurface() {return longeurterrain * largeurTerrain;}
+    public double getSurface() {return longueurTerrain * largeurTerrain;}
 
     //setter
-    public void setLongeurterrain(double longeurterrain) {
-        this.longeurterrain = longeurterrain;
+    public void setLongueurTerrain(double longueurTerrain) {
+        this.longueurTerrain = longueurTerrain;
     }
     public void setLargeurTerrain(double largeurTerrain) {
         this.largeurTerrain = largeurTerrain;
@@ -29,6 +29,6 @@ public class Terrain {
 
     @Override
     public String toString(){
-        return "Terrai : [ longeur = " + longeurterrain + " largeur = " + largeurTerrain + "Surface = "+ getSurface();
+        return "Terrain : [ longeur = " + longueurTerrain + " largeur = " + largeurTerrain + "Surface = " + getSurface();
     }
 }

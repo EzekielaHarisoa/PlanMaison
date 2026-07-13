@@ -8,21 +8,31 @@ public class Maison {
     private double largeur;
     private double longeur;
 
+    private int x;
+    private int y;
+
     private List<Piece> pieces;
+    private List<Contrainte> contraintes;
+
+
 
     private Terrain terrain;
+    private MaisonPosition position;
 
-    public Maison(double largeur, double longeur, Terrain terrain) {
-        this.largeur = largeur;
+    public Maison(double longeur, double largeur, Terrain terrain, MaisonPosition position) {
         this.longeur = longeur;
+        this.largeur = largeur;
         this.terrain = terrain;
+        this.position = position;
         this.pieces = new ArrayList<>();
+        this.contraintes = new ArrayList<>();
     }
 
-    //ajout piece
+    //ajout
     public void ajoutPiece(Piece piece) {
         pieces.add(piece);
     }
+    public void ajoutContrainte(Contrainte contrainte) { contraintes.add(contrainte); }
 
     //getter
     public double getLargeur() {
@@ -34,6 +44,19 @@ public class Maison {
     public List<Piece> getPieces() {
         return pieces;
     }
+    public List<Contrainte> getContraintes() { return  contraintes; }
+    public Terrain getTerrain() {
+        return terrain;
+    }
+    public MaisonPosition getPosition() {
+        return position;
+    }
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
 
     //setter
     public void setLargeur(double largeur) {
@@ -44,6 +67,21 @@ public class Maison {
     }
     public void setPieces(List<Piece> pieces) {
         this.pieces = pieces;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+    public void setContraintes(List<Contrainte> contraintes) {
+        this.contraintes = contraintes;
+    }
+    public void setPosition(MaisonPosition position) {
+        this.position = position;
     }
 
     @Override

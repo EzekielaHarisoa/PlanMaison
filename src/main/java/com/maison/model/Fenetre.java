@@ -30,7 +30,7 @@ public class Fenetre {
     public void setLongeur(double longeur) {
         this.longeur = longeur;
     }
-    public void setFenetrePosition(FenetrePosition fenetrePosition)
+    public void setFenetrePosition(FenetrePosition fenetrePosition) {this.fenetrePosition = fenetrePosition;}
 
     @Override
     public String toString() {

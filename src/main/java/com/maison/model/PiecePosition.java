@@ -2,27 +2,27 @@ package com.maison.model;
 
 public class PiecePosition {
 
-    private int x;
-    private int y;
+    private double x;
+    private double y;
 
-    public PiecePosition(int x, int y){
+    public PiecePosition(double x, double y){
         this.x = x;
         this.y = y;
     }
 
     //getter
-    public int getY() {
+    public double getY() {
         return y;
     }
-    public int getX() {
+    public double getX() {
         return x;
     }
 
     //setter
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
