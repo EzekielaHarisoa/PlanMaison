@@ -64,17 +64,24 @@ public class SaisieClient {
                 new PieceDimension(4,3),
                 PiecePositionDemande.SUD
         );
-
         Piece salleAManger = new Piece(
                 "SalleAManger",
                 "SalleAManger",
+                new PieceDimension(6,5),
+                PiecePositionDemande.CENTRE
+        ); Piece chambre = new Piece(
+                "chambre",
+                "chambre",
                 new PieceDimension(6,5),
                 PiecePositionDemande.CENTRE
         );
 
         maison.ajoutPiece(cuisine);
         maison.ajoutPiece(salleAManger);
-        
+        maison.ajoutPiece(chambre);
+
+        Contrainte c1 = new Contrainte(chambre,cuisine,PieceDirection.NORD,PiecePositionTypeRelation.A_COTE);
+        maison.ajoutContrainte(c1);
         GenerateurEsquise generateur = new GenerateurEsquise();
 
         generateur.generer(maison);
@@ -90,6 +97,7 @@ public class SaisieClient {
                             + " Y=" + p.getPosition().getY()
             );
         }
+
 
         EsquissePanel ep = new EsquissePanel(terrain, maison);
 

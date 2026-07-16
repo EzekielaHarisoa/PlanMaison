@@ -10,17 +10,34 @@ public class GenerateurEsquise {
 
         positionnerMaison(maison);
 
+
         for (Piece piece : maison.getPieces()) {
-            positionnerPiece(piece, maison);
-            verifierDansMaison(piece, maison);
-            if(!positionLibre(piece,maison)) {
-                corrigerCollision(piece,maison);
+
+            if(!aUneContrainteCommeP2(piece, maison)) {
+
+                positionnerPiece(piece, maison);
+
+                verifierDansMaison(piece, maison);
+
+                if(!positionLibre(piece,maison)) {
+                    corrigerCollision(piece,maison);
+                }
             }
         }
 
+
         for (Contrainte c : maison.getContraintes()) {
-            appliquerContrainte(c,maison);
+
+            appliquerContrainte(c, maison);
+
+            verifierDansMaison(c.getP2(), maison);
+
+            if(!positionLibre(c.getP2(), maison)) {
+                corrigerCollision(c.getP2(), maison);
+            }
         }
+
+
         if(planValide(maison)) {
             System.out.println("Plan valide");
         }
@@ -28,7 +45,6 @@ public class GenerateurEsquise {
             System.out.println("Plan invalide");
         }
     }
-
     private void positionnerMaison(Maison maison){
 
         double largeurTerrain = maison.getTerrain().getLargeurTerrain();
@@ -343,6 +359,15 @@ public class GenerateurEsquise {
         piece.getPosition().setY(xOriginal);
         piece.getPosition().setY(yOriginal);
 
+    }
+    private boolean aUneContrainteCommeP2(Piece piece, Maison maison) {
+        for( Contrainte c : maison.getContraintes()) {
+            if (c.getP2() == piece ) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
 }
