@@ -51,9 +51,9 @@ public class SaisieClient {
     public void afficheEsquisse() {
 
         JFrame frame = new JFrame("Esquisse");
-        Terrain terrain = new Terrain(60,100);
+        Terrain terrain = new Terrain(60,60);
         Maison maison = new Maison(
-                40,
+                60,
                 50,
                 terrain,
                 MaisonPosition.NORD_EST
@@ -61,19 +61,19 @@ public class SaisieClient {
         Piece cuisine = new Piece(
                 "Cuisine",
                 "Cuisine",
-                new PieceDimension(4,3),
-                PiecePositionDemande.SUD
+                new PieceDimension(10,10),
+                PiecePositionDemande.NORD
         );
         Piece salleAManger = new Piece(
                 "SalleAManger",
                 "SalleAManger",
-                new PieceDimension(6,5),
-                PiecePositionDemande.CENTRE
+                new PieceDimension(10,10),
+                PiecePositionDemande.EST
         ); Piece chambre = new Piece(
                 "chambre",
                 "chambre",
-                new PieceDimension(6,5),
-                PiecePositionDemande.CENTRE
+                new PieceDimension(10,5),
+                PiecePositionDemande.OUEST
         );
 
         maison.ajoutPiece(cuisine);
@@ -82,29 +82,29 @@ public class SaisieClient {
 
         Contrainte c1 = new Contrainte(chambre,cuisine,PieceDirection.NORD,PiecePositionTypeRelation.A_COTE);
         maison.ajoutContrainte(c1);
+
         GenerateurEsquise generateur = new GenerateurEsquise();
 
-        generateur.generer(maison);
-        System.out.println(
-                "Maison X = " + maison.getX() + " Y = " + maison.getY()
-        );
+        if(generateur.generer(maison)){
 
-        for(Piece p : maison.getPieces()){
+            EsquissePanel ep = new EsquissePanel(terrain, maison);
 
-            System.out.println(
-                    p.getNom()
-                            + " X=" + p.getPosition().getX()
-                            + " Y=" + p.getPosition().getY()
+            frame.add(ep);
+            frame.setSize(800,600);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+
+        }
+        else{
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    generateur.getMessageErreur(),
+                    "Plan invalide",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
 
-
-        EsquissePanel ep = new EsquissePanel(terrain, maison);
-
-        frame.add(ep);
-        frame.setSize(800,600);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
 
     }}

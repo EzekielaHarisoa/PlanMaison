@@ -6,7 +6,7 @@ public class GenerateurEsquise {
 
     private static final double marge = 1;
 
-    public void generer(Maison maison) {
+    public boolean generer(Maison maison) {
 
         positionnerMaison(maison);
 
@@ -44,6 +44,7 @@ public class GenerateurEsquise {
         else {
             System.out.println("Plan invalide");
         }
+        return planValide(maison);
     }
     private void positionnerMaison(Maison maison){
 
@@ -127,6 +128,11 @@ public class GenerateurEsquise {
         if(y + longueurPiece > maison.getLongeur()){
             piece.getPosition().setY((int)maison.getLongeur() - longueurPiece);
         }
+    }
+
+    private StringBuilder messageErreur = new StringBuilder();
+    public StringBuilder getMessageErreur() {
+        return messageErreur;
     }
 
     private void positionnerPiece(Piece piece, Maison maison) {
@@ -310,26 +316,17 @@ public class GenerateurEsquise {
 
                 Piece p2 = maison.getPieces().get(j);
                 if(collision(p1,p2)) {
+
                     colisionTrouver = true;
 
-                    System.out.println("Collision entre " + p1.getNom() + " et " + p2.getNom());
-                    System.out.println(
-                            p1.getNom()
-                                    + " X=" + p1.getPosition().getX()
-                                    + " Y=" + p1.getPosition().getY()
-                                    + " L=" + p1.getDimension().getLargeur()
-                                    + " H=" + p1.getDimension().getLongueur()
+                    messageErreur.append(
+                            "Collision entre "
+                                    + p1.getNom()
+                                    + " et "
+                                    + p2.getNom()
                     );
-
-                    System.out.println(
-                            p2.getNom()
-                                    + " X=" + p2.getPosition().getX()
-                                    + " Y=" + p2.getPosition().getY()
-                                    + " L=" + p2.getDimension().getLargeur()
-                                    + " H=" + p2.getDimension().getLongueur()
-                    );
+                    System.out.println(messageErreur);
                 }
-
             }
 
         }

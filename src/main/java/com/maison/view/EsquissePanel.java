@@ -21,7 +21,7 @@ public class EsquissePanel extends JPanel {
         double terrainLargeur = (int)terrain.getLargeurTerrain();
         double terrainLongueur= (int)terrain.getLongueurTerrain();
 
-        double echelleX = 800.0 / terrainLargeur;
+        double echelleX = 900.0 / terrainLargeur;
         double echelleY = 600.0 / terrainLongueur;
 
         return Math.min(echelleX,echelleY);
