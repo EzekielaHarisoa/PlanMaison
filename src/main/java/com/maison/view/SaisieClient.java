@@ -79,6 +79,9 @@ public class SaisieClient {
         maison.ajoutPiece(cuisine);
         maison.ajoutPiece(salleAManger);
         maison.ajoutPiece(chambre);
+        cuisine.ajoutPorte(
+                new Porte(5.0, PiecePositionDemande.NORD)
+        );
 
         Contrainte c1 = new Contrainte(chambre,cuisine,PieceDirection.NORD,PiecePositionTypeRelation.A_COTE);
         maison.ajoutContrainte(c1);

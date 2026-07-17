@@ -2,40 +2,27 @@ package com.maison.model;
 
 public class Fenetre {
 
-    private double longeur;
     private double largeur;
-    private FenetrePosition fenetrePosition;
+    private Mur mur;
 
-    public Fenetre(double longeur, double largeur, FenetrePosition fenetrePosition) {
-        this.longeur = longeur;
+    public Fenetre(double largeur, Mur mur) {
         this.largeur = largeur;
-        this.fenetrePosition = fenetrePosition;
+        this.mur = mur;
     }
 
     //getter
     public double getLargeur() {
         return largeur;
     }
-    public double getLongeur() {
-        return longeur;
-    }
-    public FenetrePosition getFenetrePosition() {
-        return fenetrePosition;
+    public Mur getMur() {
+        return mur;
     }
 
     //setter
     public void setLargeur(double largeur) {
         this.largeur = largeur;
     }
-    public void setLongeur(double longeur) {
-        this.longeur = longeur;
+    public void setMur(Mur mur) {
+        this.mur = mur;
     }
-    public void setFenetrePosition(FenetrePosition fenetrePosition) {this.fenetrePosition = fenetrePosition;}
-
-    @Override
-    public String toString() {
-        return "Fenetre : [ longeur = " + longeur + " largeur = " + largeur + "position = " + fenetrePosition;
-    }
-
-
 }

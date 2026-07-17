@@ -131,8 +131,8 @@ public class GenerateurEsquise {
     }
 
     private StringBuilder messageErreur = new StringBuilder();
-    public StringBuilder getMessageErreur() {
-        return messageErreur;
+    public String getMessageErreur() {
+        return messageErreur.toString();
     }
 
     private void positionnerPiece(Piece piece, Maison maison) {

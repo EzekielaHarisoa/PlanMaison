@@ -2,6 +2,7 @@ package com.maison.view;
 
 import com.maison.model.Maison;
 import com.maison.model.Piece;
+import com.maison.model.Porte;
 import com.maison.model.Terrain;
 
 import javax.swing.*;
@@ -68,9 +69,82 @@ public class EsquissePanel extends JPanel {
             g2.drawRect(pieceX, pieceY,pieceLargeurPx,  pieceLongueurPx);
             g2.drawString(p.getNom(), pieceX + 10, pieceY + 10);
 
+            //dessin des portes
+            for(Porte porte : p.getPortes()){
+
+                dessinerPorte(
+                        g2,
+                        porte,
+                        pieceX,
+                        pieceY,
+                        pieceLargeurPx,
+                        pieceLongueurPx,
+                        echelle
+                );
+            }
+
         }
         System.out.println("Echelle = " + echelle);
 
+
+
+    }
+
+    private void dessinerPorte(
+            Graphics2D g2,
+            Porte porte,
+            int pieceX,
+            int pieceY,
+            int pieceLargeurPx,
+            int pieceLongueurPx,
+            double echelle
+    ){
+        int largeurPortePx =
+                (int)(porte.getLargeur() * echelle);
+
+        switch(porte.getPosition()){
+
+            case NORD:
+
+                g2.drawLine(
+                        pieceX + (pieceLargeurPx - largeurPortePx) / 2,
+                        pieceY,
+                        pieceX + (pieceLargeurPx + largeurPortePx) / 2,
+                        pieceY
+                );
+
+                break;
+            case SUD:
+
+                g2.drawLine(
+                        pieceX + (pieceLargeurPx - largeurPortePx) / 2,
+                        pieceY + pieceLongueurPx,
+                        pieceX + (pieceLargeurPx + largeurPortePx) / 2,
+                        pieceY + pieceLongueurPx
+                );
+
+                break;
+            case EST:
+
+                g2.drawLine(
+                        pieceX + pieceLargeurPx,
+                        pieceY + (pieceLongueurPx - largeurPortePx) / 2,
+                        pieceX + pieceLargeurPx,
+                        pieceY + (pieceLongueurPx + largeurPortePx) / 2
+                );
+
+                break;
+            case OUEST:
+
+                g2.drawLine(
+                        pieceX,
+                        pieceY + (pieceLongueurPx - largeurPortePx) / 2,
+                        pieceX,
+                        pieceY + (pieceLongueurPx + largeurPortePx) / 2
+                );
+
+                break;
+        }
     }
 
 }
