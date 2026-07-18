@@ -14,7 +14,7 @@ public class Fenetre {
     public double getLargeur() {
         return largeur;
     }
-    public Mur getMur() {
+    public Mur getPosition() {
         return mur;
     }
 

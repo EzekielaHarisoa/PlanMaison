@@ -2,41 +2,47 @@ package com.maison.services;
 
 import com.maison.model.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GenerateurEsquise {
 
     private static final double marge = 1;
 
     public boolean generer(Maison maison) {
 
+        erreurs.clear();
         positionnerMaison(maison);
-
+        if(!verifierMaisonDansterrain(maison)) {
+            return false;
+        }
 
         for (Piece piece : maison.getPieces()) {
 
+            if(!verifierPiecedansMaison(piece,maison)){
+                return false;
+            }
             if(!aUneContrainteCommeP2(piece, maison)) {
 
                 positionnerPiece(piece, maison);
-
                 verifierDansMaison(piece, maison);
 
                 if(!positionLibre(piece,maison)) {
                     corrigerCollision(piece,maison);
                 }
             }
-        }
 
+        }
 
         for (Contrainte c : maison.getContraintes()) {
 
             appliquerContrainte(c, maison);
-
             verifierDansMaison(c.getP2(), maison);
 
             if(!positionLibre(c.getP2(), maison)) {
                 corrigerCollision(c.getP2(), maison);
             }
         }
-
 
         if(planValide(maison)) {
             System.out.println("Plan valide");
@@ -110,6 +116,24 @@ public class GenerateurEsquise {
 
     }
 
+    List<String> erreurs = new ArrayList<String>();
+    private boolean verifierMaisonDansterrain(Maison maison) {
+
+        boolean valide = true;
+        if(
+                maison.getLargeur() > maison.getTerrain().getLargeurTerrain()
+                || maison.getLongeur() > maison.getTerrain().getLongueurTerrain()
+        ) {
+            erreurs.add("La maison est plus grand que le terrain");
+            valide = false;
+        }
+        if(maison.getX() < 0 || maison.getY() < 0) {
+            erreurs.add("la maison depasse la limite du terrain");
+            valide = false;
+        }
+        return valide ;
+    }
+
     private void verifierDansMaison(Piece piece, Maison maison){
 
         int x = (int) piece.getPosition().getX();
@@ -117,7 +141,6 @@ public class GenerateurEsquise {
 
         int largeurPiece = (int) piece.getDimension().getLargeur();
         int longueurPiece = (int) piece.getDimension().getLongueur();
-
 
         if(x < 0){ piece.getPosition().setX(0); }
         if(y < 0){ piece.getPosition().setY(0); }
@@ -130,8 +153,31 @@ public class GenerateurEsquise {
         }
     }
 
-    private StringBuilder messageErreur = new StringBuilder();
+    private boolean verifierPiecedansMaison(Piece piece, Maison maison) {
+
+        boolean valide = true;
+
+        if (piece.getDimension().getLargeur() > maison.getLargeur() ) {
+            erreurs.add("Le largeur "+ piece.getNom() + " depasse le lareur de la maison ");
+            valide = false;
+        }
+        if (piece.getDimension().getLongueur() > maison.getLongeur()) {
+            erreurs.add("Le longueur du  "+ piece.getNom() + " depasse le longueur de la maison ");
+            valide = false;
+        }
+        return valide;
+
+    }
+
+
     public String getMessageErreur() {
+        StringBuilder messageErreur = new StringBuilder();
+
+        for (String erreur : erreurs) {
+            messageErreur.append(" -");
+            messageErreur.append(erreur);
+            messageErreur.append("\n");
+        }
         return messageErreur.toString();
     }
 
@@ -143,18 +189,18 @@ public class GenerateurEsquise {
         switch(piece.getPiecePositionDemande()) {
             case NORD:
                 x = (maison.getLargeur() - piece.getDimension().getLargeur()) / 2;
-                y = marge;
+                y = 0;
                 break;
             case SUD:
                 x = (maison.getLargeur() - piece.getDimension().getLargeur()) / 2;
-                y = maison.getLongeur() - piece.getDimension().getLongueur() - marge;
+                y = maison.getLongeur() - piece.getDimension().getLongueur() ;
                 break;
             case EST:
-                x = maison.getLargeur() - piece.getDimension().getLargeur() - marge;
+                x = maison.getLargeur() - piece.getDimension().getLargeur() ;
                 y = (maison.getLongeur() - piece.getDimension().getLongueur()) / 2;
                 break;
             case OUEST:
-                x = marge;
+                x = 0;
                 y = (maison.getLongeur() - piece.getDimension().getLongueur()) / 2;
                 break;
             case CENTRE:
@@ -162,32 +208,27 @@ public class GenerateurEsquise {
                 y = (maison.getLongeur() - piece.getDimension().getLongueur()) / 2;
                 break;
             case NORD_EST:
-                x = maison.getLargeur() - piece.getDimension().getLargeur() - marge;
-                y = marge;
+                x = maison.getLargeur() - piece.getDimension().getLargeur() ;
+                y = 0;
                 break;
             case NORD_OUEST:
-                x = marge;
-                y = marge;
+                x = 0;
+                y = 0;
                 break;
             case SUD_EST:
-                x = maison.getLargeur() - piece.getDimension().getLargeur() - marge;
-                y = maison.getLongeur() - piece.getDimension().getLongueur() - marge;
+                x = maison.getLargeur() - piece.getDimension().getLargeur() ;
+                y = maison.getLongeur() - piece.getDimension().getLongueur() ;
                 break;
             case SUD_OUEST:
-                x = marge;
-                y = maison.getLongeur() - piece.getDimension().getLongueur() - marge;
+                x = 0;
+                y = maison.getLongeur() - piece.getDimension().getLongueur() ;
                 break;
         }
 
         piece.getPosition().setX((int)x);
         piece.getPosition().setY((int)y);
 
-        System.out.println(
-                "PLACEMENT "
-                        + piece.getNom()
-                        + " X=" + x
-                        + " Y=" + y
-        );
+        System.out.println("PLACEMENT " + piece.getNom() + " X=" + x + " Y=" + y);
 
     }
 
@@ -210,7 +251,7 @@ public class GenerateurEsquise {
         double largeurP2 = p2.getDimension().getLargeur();
         double longueurP2 = p2.getDimension().getLongueur();
 
-        double espace = marge;
+        double espace = 0;
 
         if(c.getTypeRelation() == PiecePositionTypeRelation.FACE_A){
             espace = marge * 3;
@@ -219,72 +260,28 @@ public class GenerateurEsquise {
         switch(c.getDirection()) {
 
             case EST:
-
-                p2.getPosition().setX(
-                        (int)(p1.getPosition().getX()
-                                + largeurP1
-                                + espace)
-                );
-
-                p2.getPosition().setY(
-                        p1.getPosition().getY()
-                );
-
+                p2.getPosition().setX((int)(p1.getPosition().getX() + largeurP1 + espace));
+                p2.getPosition().setY(p1.getPosition().getY());
                 break;
-
             case OUEST:
-
-                p2.getPosition().setX(
-                        (int)(p1.getPosition().getX()
-                                - largeurP2
-                                - espace)
-                );
-
-                p2.getPosition().setY(
-                        p1.getPosition().getY()
-                );
-
+                p2.getPosition().setX((int)(p1.getPosition().getX() - largeurP2 - espace));
+                p2.getPosition().setY(p1.getPosition().getY());
                 break;
-
             case NORD:
-
-                p2.getPosition().setX(
-                        p1.getPosition().getX()
-                );
-
-                p2.getPosition().setY(
-                        (int)(p1.getPosition().getY()
-                                - longueurP2
-                                - espace)
-                );
-
+                p2.getPosition().setX(p1.getPosition().getX());
+                p2.getPosition().setY((int)(p1.getPosition().getY() - longueurP2 - espace));
                 break;
-
             case SUD:
-
-                p2.getPosition().setX(
-                        p1.getPosition().getX()
-                );
-
-                p2.getPosition().setY(
-                        (int)(p1.getPosition().getY()
-                                + longueurP1
-                                + espace)
-                );
-
+                p2.getPosition().setX(p1.getPosition().getX());
+                p2.getPosition().setY((int)(p1.getPosition().getY() + longueurP1 + espace));
                 break;
         }
 
-        verifierDansMaison(p2, maison); // si tu as accès à maison
+        verifierDansMaison(p2, maison);
 
-        System.out.println(
-                p1.getNom()
-                        + " "
-                        + c.getTypeRelation()
-                        + " "
-                        + p2.getNom()
-        );
+        System.out.println(p1.getNom() + " " + c.getTypeRelation() + " " + p2.getNom());
     }
+
     private boolean collision(Piece p1, Piece p2) {
         int x1 = (int)p1.getPosition().getX();
         int y1 = (int)p1.getPosition().getY();
@@ -318,14 +315,8 @@ public class GenerateurEsquise {
                 if(collision(p1,p2)) {
 
                     colisionTrouver = true;
+                    erreurs.add(" Collision entre " + p1.getNom() + " et " + p2.getNom() + "\n");
 
-                    messageErreur.append(
-                            "Collision entre "
-                                    + p1.getNom()
-                                    + " et "
-                                    + p2.getNom()
-                    );
-                    System.out.println(messageErreur);
                 }
             }
 
@@ -357,6 +348,7 @@ public class GenerateurEsquise {
         piece.getPosition().setY(yOriginal);
 
     }
+
     private boolean aUneContrainteCommeP2(Piece piece, Maison maison) {
         for( Contrainte c : maison.getContraintes()) {
             if (c.getP2() == piece ) {

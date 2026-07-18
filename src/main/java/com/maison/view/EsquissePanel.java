@@ -1,9 +1,6 @@
 package com.maison.view;
 
-import com.maison.model.Maison;
-import com.maison.model.Piece;
-import com.maison.model.Porte;
-import com.maison.model.Terrain;
+import com.maison.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,20 +63,22 @@ public class EsquissePanel extends JPanel {
             int pieceLargeurPx = (int)(p.getDimension().getLargeur() * echelle);
             int pieceLongueurPx = (int)(p.getDimension().getLongueur() * echelle);
 
-            g2.drawRect(pieceX, pieceY,pieceLargeurPx,  pieceLongueurPx);
+            g2.setColor(new Color(240,240,255));
+            g2.fillRect(pieceX, pieceY, pieceLargeurPx, pieceLongueurPx);
+
+            g2.setColor(Color.BLACK);
+            g2.drawRect(pieceX, pieceY, pieceLargeurPx, pieceLongueurPx);
+
             g2.drawString(p.getNom(), pieceX + 10, pieceY + 10);
 
             //dessin des portes
             for(Porte porte : p.getPortes()){
+                dessinerPorte(g2, porte, pieceX, pieceY, pieceLargeurPx, pieceLongueurPx, echelle);
+            }
 
-                dessinerPorte(
-                        g2,
-                        porte,
-                        pieceX,
-                        pieceY,
-                        pieceLargeurPx,
-                        pieceLongueurPx,
-                        echelle
+            //dessin des fenetres
+            for(Fenetre fenetre : p.getFenetres()) {
+                dessinerFenetre(g2, fenetre, pieceX, pieceY, pieceLargeurPx, pieceLongueurPx, echelle
                 );
             }
 
@@ -90,29 +89,24 @@ public class EsquissePanel extends JPanel {
 
     }
 
-    private void dessinerPorte(
-            Graphics2D g2,
-            Porte porte,
-            int pieceX,
-            int pieceY,
-            int pieceLargeurPx,
-            int pieceLongueurPx,
-            double echelle
-    ){
-        int largeurPortePx =
-                (int)(porte.getLargeur() * echelle);
+    private void dessinerPorte(Graphics2D g2, Porte porte, int pieceX, int pieceY, int pieceLargeurPx, int pieceLongueurPx, double echelle){
+
+        int largeurPortePx = (int)(porte.getLargeur() * echelle);
+        Color ancienneCouleur = g2.getColor();
+        Stroke ancienStroke = g2.getStroke();
+
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(5));
 
         switch(porte.getPosition()){
 
             case NORD:
-
                 g2.drawLine(
                         pieceX + (pieceLargeurPx - largeurPortePx) / 2,
                         pieceY,
                         pieceX + (pieceLargeurPx + largeurPortePx) / 2,
                         pieceY
                 );
-
                 break;
             case SUD:
 
@@ -124,27 +118,84 @@ public class EsquissePanel extends JPanel {
                 );
 
                 break;
-            case EST:
 
+            case EST:
                 g2.drawLine(
                         pieceX + pieceLargeurPx,
                         pieceY + (pieceLongueurPx - largeurPortePx) / 2,
                         pieceX + pieceLargeurPx,
                         pieceY + (pieceLongueurPx + largeurPortePx) / 2
                 );
-
                 break;
             case OUEST:
-
                 g2.drawLine(
                         pieceX,
                         pieceY + (pieceLongueurPx - largeurPortePx) / 2,
                         pieceX,
                         pieceY + (pieceLongueurPx + largeurPortePx) / 2
                 );
-
                 break;
         }
+
+        g2.setColor(ancienneCouleur);
+        g2.setStroke(ancienStroke);
     }
 
+    private void dessinerFenetre(
+            Graphics2D g2,
+            Fenetre fenetre,
+            int pieceX,
+            int pieceY,
+            int pieceLargeurPx,
+            int pieceLongueurPx,
+            double echelle){
+
+        int largeurFenetrePx =
+                (int)(fenetre.getLargeur() * echelle);
+
+        Color ancienneCouleur = g2.getColor();
+        Stroke ancienStroke = g2.getStroke();
+
+        g2.setColor(Color.BLUE);
+        g2.setStroke(new BasicStroke(3));
+
+        switch(fenetre.getPosition()){
+
+            case NORD:
+                g2.drawLine(
+                        pieceX + (pieceLargeurPx - largeurFenetrePx) / 2,
+                        pieceY,
+                        pieceX + (pieceLargeurPx + largeurFenetrePx) / 2,
+                        pieceY
+                );
+                break;
+            case SUD:
+                g2.drawLine(
+                        pieceX + (pieceLargeurPx - largeurFenetrePx) / 2,
+                        pieceY + pieceLongueurPx,
+                        pieceX + (pieceLargeurPx + largeurFenetrePx) / 2,
+                        pieceY + pieceLongueurPx
+                );
+                break;
+            case EST:
+                g2.drawLine(
+                        pieceX + pieceLargeurPx,
+                        pieceY + (pieceLongueurPx - largeurFenetrePx) / 2,
+                        pieceX + pieceLargeurPx,
+                        pieceY + (pieceLongueurPx + largeurFenetrePx) / 2
+                );
+                break;
+            case OUEST:
+                g2.drawLine(
+                        pieceX,
+                        pieceY + (pieceLongueurPx - largeurFenetrePx) / 2,
+                        pieceX,
+                        pieceY + (pieceLongueurPx + largeurFenetrePx) / 2
+                );
+                break;
+        }
+
+        g2.setColor(ancienneCouleur);
+        g2.setStroke(ancienStroke);
+    }
 }

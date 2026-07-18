@@ -21,6 +21,11 @@ public class SaisieClient {
     private JTextField textField3;
     private JTextField textField4;
     private JLabel surfaceMaisonTitre;
+    private JComboBox comboBox1;
+    private JComboBox comboBox2;
+    private JComboBox comboBox3;
+    private JComboBox comboBox4;
+    private JButton ajouterButton;
 
     private int nbPiece = 0;
 
@@ -52,52 +57,71 @@ public class SaisieClient {
 
         JFrame frame = new JFrame("Esquisse");
         Terrain terrain = new Terrain(60,60);
+
         Maison maison = new Maison(
                 60,
-                50,
+                60,
                 terrain,
-                MaisonPosition.NORD_EST
+                MaisonPosition.EST
         );
-        Piece cuisine = new Piece(
-                "Cuisine",
-                "Cuisine",
+        Piece nord = new Piece(
+                "kela",
+                "Chambre",
                 new PieceDimension(10,10),
                 PiecePositionDemande.NORD
         );
-        Piece salleAManger = new Piece(
-                "SalleAManger",
-                "SalleAManger",
+        Piece sud = new Piece(
+                "Chambre",
+                "Chambre",
                 new PieceDimension(10,10),
+                PiecePositionDemande.SUD
+        );
+        Piece est = new Piece(
+                "Est",
+                "Chambre",
+                new PieceDimension(10,18),
                 PiecePositionDemande.EST
-        ); Piece chambre = new Piece(
-                "chambre",
-                "chambre",
-                new PieceDimension(10,5),
+        );
+        Piece ouest = new Piece(
+                "Ouest",
+                "Chambre",
+                new PieceDimension(10,10),
                 PiecePositionDemande.OUEST
         );
-
-        maison.ajoutPiece(cuisine);
-        maison.ajoutPiece(salleAManger);
-        maison.ajoutPiece(chambre);
-        cuisine.ajoutPorte(
-                new Porte(5.0, PiecePositionDemande.NORD)
+        Piece nordOuest = new Piece(
+                "nordOuest",
+                "Salon",
+                new PieceDimension(10,15),
+                PiecePositionDemande.NORD_EST
         );
 
-        Contrainte c1 = new Contrainte(chambre,cuisine,PieceDirection.NORD,PiecePositionTypeRelation.A_COTE);
-        maison.ajoutContrainte(c1);
+        maison.ajoutPiece(nord);
+        maison.ajoutPiece(sud);
+        maison.ajoutPiece(est);
+        maison.ajoutPiece(ouest);
+        maison.ajoutPiece(nordOuest);
 
+        nord.ajoutPorte(new Porte(3, PiecePositionDemande.NORD));
+        nord.ajoutPorte(new Porte(3, PiecePositionDemande.NORD));
+        sud.ajoutPorte(new Porte(3, PiecePositionDemande.SUD));
+        est.ajoutPorte(new Porte(3, PiecePositionDemande.EST));
+        ouest.ajoutPorte(new Porte(3, PiecePositionDemande.OUEST));
+
+        nordOuest.ajoutFenetre(new Fenetre(2, Mur.NORD));
+        nordOuest.ajoutFenetre(new Fenetre(2, Mur.SUD));
+
+        Contrainte c1 = new Contrainte(nord,nordOuest,PieceDirection.EST,PiecePositionTypeRelation.A_COTE);
+        maison.ajoutContrainte(c1);
         GenerateurEsquise generateur = new GenerateurEsquise();
 
         if(generateur.generer(maison)){
 
             EsquissePanel ep = new EsquissePanel(terrain, maison);
-
             frame.add(ep);
             frame.setSize(800,600);
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
-
         }
         else{
 
