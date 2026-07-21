@@ -3,8 +3,17 @@ package com.maison.view;
 import javax.swing.*;
 
 public class ContraintePanel {
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
+    private JLabel contrainteTitle;
+    private JLabel pieceReference;
+    private JLabel pieceADeplacer;
+    private JLabel contrainteLabel;
+    private JPanel panelContrainte;
+
+    public ContraintePanel(int numero) {
+        contrainteTitle.setText("contrainte " + numero);
+    }
+
+    public JPanel getPanelContrainte() {
+        return panelContrainte;
+    }
 }

@@ -19,6 +19,7 @@ public class PiecePanel   {
     private JButton addFenetre;
     private JLabel nbrPorte;
     private JLabel nbrFenetre;
+    private JScrollPane Portes;
     int nbr = 0;
 
 

@@ -20,21 +20,29 @@ public class SaisieClient {
     private JLabel surfaceTerrainTitre;
     private JTextField textField3;
     private JTextField textField4;
-    private JLabel surfaceMaisonTitre;
+    private JLabel labelMaisonPosition;
     private JComboBox comboBox1;
     private JComboBox comboBox2;
     private JComboBox comboBox3;
     private JComboBox comboBox4;
-    private JButton ajouterButton;
+    private JButton ajouterContrainteButton;
+    private JComboBox comboBox5;
+    private JPanel contrainteList;
 
     private int nbPiece = 0;
+    private int nbContr = 0;
 
     public SaisieClient() {
         panelList.setLayout(
                 new BoxLayout(panelList,BoxLayout.Y_AXIS)
         );
+        contrainteList.setLayout(
+                new BoxLayout(contrainteList,BoxLayout.Y_AXIS)
+        );
         ajouterUnePieceButton.addActionListener(e -> ajouterPiece());
         genererButton.addActionListener(e -> afficheEsquisse());
+        ajouterContrainteButton.addActionListener(e -> ajouterContrainte());
+
     }
 
     private void createUIComponents() {
@@ -52,7 +60,14 @@ public class SaisieClient {
         panelList.revalidate();
         panelList.repaint();
     }
+    public void ajouterContrainte() {
+        nbContr++;
+        ContraintePanel contraintePanel = new ContraintePanel(nbContr);
+        contrainteList.add(contraintePanel.getPanelContrainte());
+        contrainteList.revalidate();
+        contrainteList.repaint();
 
+    }
     public void afficheEsquisse() {
 
         JFrame frame = new JFrame("Esquisse");
