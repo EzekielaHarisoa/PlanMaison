@@ -1,18 +1,20 @@
 package com.maison.view;
 
+import com.maison.model.Piece;
+import com.maison.model.PieceDimension;
+import com.maison.model.PiecePositionDemande;
+
 import javax.swing.*;
 
 public class PiecePanel   {
 
-    private JTextField textField3;
-    private JComboBox comboBox1;
+    private JTextField nomPiece;
+    private JComboBox typePiece;
     private JButton supprimerCettePieceButton;
     private JPanel panelPiece;
     private JPanel piece;
     private JLabel titreLabel;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JComboBox comboBox2;
+    private JComboBox posiPiece;
     private JButton addButton;
     private JPanel porteList;
     private JPanel fenetreList;
@@ -20,6 +22,8 @@ public class PiecePanel   {
     private JLabel nbrPorte;
     private JLabel nbrFenetre;
     private JScrollPane Portes;
+    private JSpinner longPiece;
+    private JSpinner largPiece;
     int nbr = 0;
 
 
@@ -40,12 +44,26 @@ public class PiecePanel   {
         addFenetre.addActionListener(e -> ajouterFenetre());
 
         supprimerCettePieceButton.addActionListener(e -> suppressionPiece());
+
+        typePiece.setModel(new DefaultComboBoxModel<>(new String[]{"Cuisine", "Salon", "Chambre", "SDB", "Garage"}));
+
+        posiPiece.setModel(new DefaultComboBoxModel<>(PiecePositionDemande.values()));
     }
 
     public JPanel getPanelPiece() {
         System.out.println(panelPiece);
         return panelPiece;
     }
+
+    public Piece getPiece(){
+        String nom = nomPiece.getText();
+        String type = typePiece.getSelectedItem().toString();
+        double longueurP = ((Number) longPiece.getValue()).doubleValue();
+        double largeurP = ((Number) largPiece.getValue()).doubleValue();
+        PiecePositionDemande posiP = (PiecePositionDemande) posiPiece.getSelectedItem();
+
+        return new Piece(nom,type, new PieceDimension(longueurP, largeurP), posiP);
+    };
 
     public void ajouterPorte() {
         nbr++;

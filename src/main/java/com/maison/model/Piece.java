@@ -87,10 +87,14 @@ public class Piece {
     public void ajoutPorte(Porte porte) {
         portes.add(porte);
     }
+
     public void ajoutFenetre(Fenetre fenetre) {
         fenetres.add(fenetre);
     }
 
-
+    @Override
+    public String toString(){
+        return nom;
+    }
 
 }

@@ -4,6 +4,8 @@ import com.maison.model.*;
 import com.maison.services.GenerateurEsquise;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class SaisieClient {
     private JPanel SaisieClient1;
@@ -15,19 +17,21 @@ public class SaisieClient {
     private JButton genererButton;
 
     private JPanel panelList;
-    private JTextField textField1;
-    private JTextField textField2;
     private JLabel surfaceTerrainTitre;
-    private JTextField textField3;
-    private JTextField textField4;
     private JLabel labelMaisonPosition;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
+    private JComboBox contrainteRefference;
+    private JComboBox contrainteRelation;
+    private JComboBox contrainteSecondPiece;
+    private JComboBox contrainteDirection;
     private JButton ajouterContrainteButton;
-    private JComboBox comboBox5;
+    private JComboBox posiMaison;
     private JPanel contrainteList;
+    private JSpinner longTerrain;
+    private JSpinner largTerrain;
+    private JSpinner longMaison;
+    private JSpinner largMaison;
+    private List<PiecePanel> pieces = new ArrayList<>();
+    private List<Contrainte> contraintes = new ArrayList<>();
 
     private int nbPiece = 0;
     private int nbContr = 0;
@@ -40,8 +44,16 @@ public class SaisieClient {
                 new BoxLayout(contrainteList,BoxLayout.Y_AXIS)
         );
         ajouterUnePieceButton.addActionListener(e -> ajouterPiece());
+
         genererButton.addActionListener(e -> afficheEsquisse());
+
         ajouterContrainteButton.addActionListener(e -> ajouterContrainte());
+
+        posiMaison.setModel(new DefaultComboBoxModel<>(MaisonPosition.values()));
+
+        contrainteDirection.setModel(new DefaultComboBoxModel<>(PieceDirection.values()));
+
+        contrainteRelation.setModel(new DefaultComboBoxModel<>(PiecePositionTypeRelation.values()));
 
     }
 
@@ -54,79 +66,93 @@ public class SaisieClient {
     }
 
     public void ajouterPiece(){
+
         nbPiece++;
+
         PiecePanel piece = new PiecePanel(nbPiece);
+
+        pieces.add(piece);
         panelList.add(piece.getPanelPiece());
+
+        mettreAJourComboPieces();
+
         panelList.revalidate();
         panelList.repaint();
+
     }
+
+    private void mettreAJourComboPieces(){
+
+        contrainteRefference.removeAllItems();
+        contrainteSecondPiece.removeAllItems();
+
+        for(PiecePanel pp : pieces){
+
+            Piece p = pp.getPiece();
+            System.out.println("Piece récupérée : " + p);
+            if(p != null) {
+                contrainteRefference.addItem(p);
+                contrainteSecondPiece.addItem(p);
+
+            }
+        }
+    }
+
     public void ajouterContrainte() {
+
+        if(contrainteRefference.getSelectedItem()==null || contrainteSecondPiece.getSelectedItem()==null) {
+            JOptionPane.showMessageDialog(null, "Choisissez deux pièces");
+            return;
+        }
+
+        Piece p1 = (Piece) contrainteRefference.getSelectedItem();
+        Piece p2 = (Piece) contrainteSecondPiece.getSelectedItem();
+
+        PieceDirection pd = (PieceDirection) contrainteDirection.getSelectedItem();
+        PiecePositionTypeRelation pr = (PiecePositionTypeRelation) contrainteRelation.getSelectedItem();
+
+        Contrainte c = new Contrainte(p1, p2, pd, pr);
         nbContr++;
-        ContraintePanel contraintePanel = new ContraintePanel(nbContr);
-        contrainteList.add(contraintePanel.getPanelContrainte());
+        contraintes.add(c);
+
+        ContraintePanel panel = new ContraintePanel(nbContr,c);
+
+        contrainteList.add(panel.getPanelContrainte());
+
+        mettreAJourComboPieces();
+
         contrainteList.revalidate();
         contrainteList.repaint();
 
     }
+
     public void afficheEsquisse() {
 
         JFrame frame = new JFrame("Esquisse");
-        Terrain terrain = new Terrain(60,60);
 
-        Maison maison = new Maison(
-                60,
-                60,
-                terrain,
-                MaisonPosition.EST
-        );
-        Piece nord = new Piece(
-                "kela",
-                "Chambre",
-                new PieceDimension(10,10),
-                PiecePositionDemande.NORD
-        );
-        Piece sud = new Piece(
-                "Chambre",
-                "Chambre",
-                new PieceDimension(10,10),
-                PiecePositionDemande.SUD
-        );
-        Piece est = new Piece(
-                "Est",
-                "Chambre",
-                new PieceDimension(10,18),
-                PiecePositionDemande.EST
-        );
-        Piece ouest = new Piece(
-                "Ouest",
-                "Chambre",
-                new PieceDimension(10,10),
-                PiecePositionDemande.OUEST
-        );
-        Piece nordOuest = new Piece(
-                "nordOuest",
-                "Salon",
-                new PieceDimension(10,15),
-                PiecePositionDemande.NORD_EST
-        );
+        double longueurT = ((Number) longTerrain.getValue()).doubleValue();
+        double largeurT = ((Number) largTerrain.getValue()).doubleValue();
 
-        maison.ajoutPiece(nord);
-        maison.ajoutPiece(sud);
-        maison.ajoutPiece(est);
-        maison.ajoutPiece(ouest);
-        maison.ajoutPiece(nordOuest);
+        Terrain terrain = new Terrain(longueurT,largeurT);
 
-        nord.ajoutPorte(new Porte(3, PiecePositionDemande.NORD));
-        nord.ajoutPorte(new Porte(3, PiecePositionDemande.NORD));
-        sud.ajoutPorte(new Porte(3, PiecePositionDemande.SUD));
-        est.ajoutPorte(new Porte(3, PiecePositionDemande.EST));
-        ouest.ajoutPorte(new Porte(3, PiecePositionDemande.OUEST));
+        double longueurM = ((Number) longMaison.getValue()).doubleValue();
+        double largeurM = ((Number) largMaison.getValue()).doubleValue();
+        MaisonPosition positionM = (MaisonPosition) posiMaison.getSelectedItem();
 
-        nordOuest.ajoutFenetre(new Fenetre(2, Mur.NORD));
-        nordOuest.ajoutFenetre(new Fenetre(2, Mur.SUD));
+        Maison maison = new Maison(longueurM, largeurM, terrain, positionM);
 
-        Contrainte c1 = new Contrainte(nord,nordOuest,PieceDirection.EST,PiecePositionTypeRelation.A_COTE);
-        maison.ajoutContrainte(c1);
+        for(PiecePanel pp : pieces) {
+
+            Piece p = pp.getPiece();
+            maison.ajoutPiece(p);
+
+        }
+        for(Contrainte c : contraintes) {
+
+            maison.ajoutContrainte(c);
+
+        }
+
         GenerateurEsquise generateur = new GenerateurEsquise();
 
         if(generateur.generer(maison)){
@@ -137,6 +163,7 @@ public class SaisieClient {
             frame.setLocationRelativeTo(null);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
+
         }
         else{
 

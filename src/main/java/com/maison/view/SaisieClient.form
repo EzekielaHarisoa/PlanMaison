@@ -53,14 +53,6 @@
                   <text value="longeur"/>
                 </properties>
               </component>
-              <component id="3c4bc" class="javax.swing.JTextField" binding="textField1" default-binding="true">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
               <component id="b1589" class="javax.swing.JLabel">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -69,11 +61,15 @@
                   <text value="largeur"/>
                 </properties>
               </component>
-              <component id="a1b47" class="javax.swing.JTextField" binding="textField2" default-binding="true">
+              <component id="391ba" class="javax.swing.JSpinner" binding="longTerrain">
                 <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="2f510" class="javax.swing.JSpinner" binding="largTerrain">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
@@ -103,14 +99,6 @@
                   <text value="longeur"/>
                 </properties>
               </component>
-              <component id="64216" class="javax.swing.JTextField" binding="textField3" default-binding="true">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
               <component id="bc35c" class="javax.swing.JLabel">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -119,11 +107,15 @@
                   <text value="largeur"/>
                 </properties>
               </component>
-              <component id="c0fb5" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+              <component id="ddcb9" class="javax.swing.JSpinner" binding="longMaison">
                 <constraints>
-                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="a81b" class="javax.swing.JSpinner" binding="largMaison">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
@@ -137,7 +129,7 @@
               <text value="Position dans le  terrais"/>
             </properties>
           </component>
-          <component id="1c8" class="javax.swing.JComboBox" binding="comboBox5" default-binding="true">
+          <component id="1c8" class="javax.swing.JComboBox" binding="posiMaison">
             <constraints>
               <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -208,7 +200,7 @@
                       <text value="Piece de refferebce"/>
                     </properties>
                   </component>
-                  <component id="54f2" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                  <component id="54f2" class="javax.swing.JComboBox" binding="contrainteRefference">
                     <constraints>
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -222,7 +214,7 @@
                       <text value="Type de Relation"/>
                     </properties>
                   </component>
-                  <component id="58a93" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+                  <component id="58a93" class="javax.swing.JComboBox" binding="contrainteRelation">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -236,7 +228,7 @@
                       <text value="Piece a deplacer"/>
                     </properties>
                   </component>
-                  <component id="1698f" class="javax.swing.JComboBox" binding="comboBox3" default-binding="true">
+                  <component id="1698f" class="javax.swing.JComboBox" binding="contrainteSecondPiece">
                     <constraints>
                       <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -250,7 +242,7 @@
                       <text value="Direction"/>
                     </properties>
                   </component>
-                  <component id="e4bf7" class="javax.swing.JComboBox" binding="comboBox4" default-binding="true">
+                  <component id="e4bf7" class="javax.swing.JComboBox" binding="contrainteDirection">
                     <constraints>
                       <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
