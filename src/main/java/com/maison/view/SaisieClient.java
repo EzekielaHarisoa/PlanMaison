@@ -13,7 +13,6 @@ public class SaisieClient {
     private JLabel terrainLabel;
 
     private JButton ajouterUnePieceButton;
-    private JButton actualiserButton;
     private JButton genererButton;
 
     private JPanel panelList;
@@ -30,6 +29,7 @@ public class SaisieClient {
     private JSpinner largTerrain;
     private JSpinner longMaison;
     private JSpinner largMaison;
+    private JButton actualiserButton;
     private List<PiecePanel> pieces = new ArrayList<>();
     private List<Contrainte> contraintes = new ArrayList<>();
 

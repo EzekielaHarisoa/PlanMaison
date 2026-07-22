@@ -158,28 +158,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="c3dc2" class="javax.swing.JButton" binding="ajouterUnePieceButton" default-binding="true">
-            <constraints border-constraint="West"/>
-            <properties>
-              <text value="Ajouter une piece"/>
-            </properties>
-          </component>
-          <component id="8a542" class="javax.swing.JButton" binding="actualiserButton" default-binding="true">
-            <constraints border-constraint="Center"/>
-            <properties>
-              <horizontalAlignment value="4"/>
-              <text value="actualiser"/>
-            </properties>
-          </component>
-          <component id="55e11" class="javax.swing.JButton" binding="genererButton" default-binding="true">
-            <constraints border-constraint="East"/>
-            <properties>
-              <horizontalAlignment value="0"/>
-              <text value="Generer"/>
-            </properties>
-          </component>
-          <grid id="1d89f" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          <grid id="1d89f" layout-manager="GridBagLayout">
             <constraints border-constraint="North"/>
             <properties/>
             <border type="none" title="Contraintes"/>
@@ -188,6 +167,7 @@
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="1.0"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -253,6 +233,7 @@
               <scrollpane id="d927a">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -269,9 +250,37 @@
               <component id="7658d" class="javax.swing.JButton" binding="ajouterContrainteButton">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
                   <text value="Ajouter "/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="614c8" layout-manager="FlowLayout" hgap="20" vgap="5" flow-align="2">
+            <constraints border-constraint="South"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ea1fa" class="javax.swing.JButton" binding="ajouterUnePieceButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <text value="Ajouter une piece"/>
+                </properties>
+              </component>
+              <component id="44083" class="javax.swing.JButton" binding="actualiserButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="4"/>
+                  <text value="actualiser"/>
+                </properties>
+              </component>
+              <component id="ac2be" class="javax.swing.JButton" binding="genererButton" default-binding="true">
+                <constraints/>
+                <properties>
+                  <horizontalAlignment value="0"/>
+                  <text value="Generer"/>
                 </properties>
               </component>
             </children>
