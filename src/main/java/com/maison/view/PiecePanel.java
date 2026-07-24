@@ -24,8 +24,14 @@ public class PiecePanel   {
     private JScrollPane Portes;
     private JSpinner longPiece;
     private JSpinner largPiece;
+    private Piece pieceModel;
     int nbr = 0;
 
+    private Runnable onPieceChanged;
+
+    public void setOnPieceChanged(Runnable onPieceChanged) {
+        this.onPieceChanged = onPieceChanged;
+    }
 
     public PiecePanel(int numero) {
         this();
@@ -33,6 +39,12 @@ public class PiecePanel   {
     }
 
     public PiecePanel() {
+        pieceModel = new Piece(
+                "",
+                "",
+                new PieceDimension(0,0),
+                PiecePositionDemande.CENTRE
+        );
         porteList.setLayout(
                 new BoxLayout(porteList,BoxLayout.Y_AXIS)
         );
@@ -47,7 +59,26 @@ public class PiecePanel   {
 
         typePiece.setModel(new DefaultComboBoxModel<>(new String[]{"Cuisine", "Salon", "Chambre", "SDB", "Garage"}));
 
+        typePiece.addActionListener(e -> {
+
+            pieceModel.setType(typePiece.getSelectedItem().toString());
+
+            if(onPieceChanged != null) {
+                onPieceChanged.run();
+            }
+        });
+
         posiPiece.setModel(new DefaultComboBoxModel<>(PiecePositionDemande.values()));
+
+        posiPiece.addActionListener(e -> {
+
+            pieceModel.setPiecePositionDemande(
+                    (PiecePositionDemande) posiPiece.getSelectedItem()
+            );
+        });
+
+
+
     }
 
     public JPanel getPanelPiece() {
@@ -56,14 +87,23 @@ public class PiecePanel   {
     }
 
     public Piece getPiece(){
-        String nom = nomPiece.getText();
-        String type = typePiece.getSelectedItem().toString();
+
+        pieceModel.setNom(nomPiece.getText());
+        pieceModel.setType(typePiece.getSelectedItem().toString());
+
         double longueurP = ((Number) longPiece.getValue()).doubleValue();
         double largeurP = ((Number) largPiece.getValue()).doubleValue();
-        PiecePositionDemande posiP = (PiecePositionDemande) posiPiece.getSelectedItem();
 
-        return new Piece(nom,type, new PieceDimension(longueurP, largeurP), posiP);
-    };
+        pieceModel.setDimension(
+                new PieceDimension(longueurP, largeurP)
+        );
+
+        pieceModel.setPiecePositionDemande(
+                (PiecePositionDemande) posiPiece.getSelectedItem()
+        );
+
+        return pieceModel;
+    }
 
     public void ajouterPorte() {
         nbr++;

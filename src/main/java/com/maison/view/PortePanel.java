@@ -1,5 +1,8 @@
 package com.maison.view;
 
+import com.maison.model.Mur;
+import com.maison.model.Porte;
+
 import javax.swing.*;
 
 public class PortePanel {
@@ -9,12 +12,14 @@ public class PortePanel {
     private JPanel panelPorte;
 
     public PortePanel() {
+        comboBox1.setModel(new DefaultComboBoxModel<>(Mur.values()));
 
     }
 
     public PortePanel(int numero) {
         this();
         porteTitre.setText("Porte " + numero);
+
     }
 
     public JPanel getPanelPorte(){

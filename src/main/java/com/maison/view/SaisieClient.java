@@ -71,6 +71,8 @@ public class SaisieClient {
 
         PiecePanel piece = new PiecePanel(nbPiece);
 
+        piece.setOnPieceChanged(() -> mettreAJourComboPieces());
+
         pieces.add(piece);
         panelList.add(piece.getPanelPiece());
 
@@ -78,7 +80,6 @@ public class SaisieClient {
 
         panelList.revalidate();
         panelList.repaint();
-
     }
 
     private void mettreAJourComboPieces(){
@@ -108,8 +109,22 @@ public class SaisieClient {
         Piece p1 = (Piece) contrainteRefference.getSelectedItem();
         Piece p2 = (Piece) contrainteSecondPiece.getSelectedItem();
 
+        if(p1 == p2) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Une pièce ne peut pas être contrainte avec elle-même"
+            );
+            return;
+        }
+
+
         PieceDirection pd = (PieceDirection) contrainteDirection.getSelectedItem();
         PiecePositionTypeRelation pr = (PiecePositionTypeRelation) contrainteRelation.getSelectedItem();
+
+        if(contrainteExisteDeja(p1,p2,pd,pr)){
+            JOptionPane.showMessageDialog(null,"Cette contrainte existe déjà");
+            return;
+        }
 
         Contrainte c = new Contrainte(p1, p2, pd, pr);
         nbContr++;
@@ -124,6 +139,27 @@ public class SaisieClient {
         contrainteList.revalidate();
         contrainteList.repaint();
 
+    }
+
+    private boolean contrainteExisteDeja(Piece p1, Piece p2, PieceDirection direction, PiecePositionTypeRelation relation) {
+
+        for(Contrainte c : contraintes) {
+
+            boolean memePiece =
+                    c.getP1() == p1 &&
+                            c.getP2() == p2;
+
+            boolean memeContrainte =
+                    c.getDirection() == direction &&
+                            c.getTypeRelation() == relation;
+
+
+            if(memePiece && memeContrainte) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void afficheEsquisse() {
@@ -174,6 +210,5 @@ public class SaisieClient {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-
 
     }}

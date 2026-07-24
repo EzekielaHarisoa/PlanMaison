@@ -28,6 +28,9 @@ public class ContraintePanel {
     public ContraintePanel(int numero, Contrainte c) {
         this.contrainte = c;
         contrainteTitle.setText("contrainte " + numero);
+        titlePieceReference.setText(c.getP1().toString());
+        titleContrainteLabel.setText(c.getTypeRelation().toString());
+        titlePieceADeplacer.setText(c.getP2().toString());
 
     }
 

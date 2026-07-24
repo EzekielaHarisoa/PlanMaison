@@ -93,8 +93,12 @@ public class Piece {
     }
 
     @Override
-    public String toString(){
-        return nom;
+    public String toString() {
+
+        if(nom != null && !nom.isBlank()) {
+            return nom;
+        }
+        return type;
     }
 
 }
