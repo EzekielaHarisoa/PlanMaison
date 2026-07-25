@@ -3,26 +3,26 @@ package com.maison.model;
 public class Fenetre {
 
     private double largeur;
-    private Mur mur;
+    private FenetrePosition position;
 
-    public Fenetre(double largeur, Mur mur) {
+    public Fenetre(double largeur, FenetrePosition position) {
         this.largeur = largeur;
-        this.mur = mur;
+        this.position = position;
     }
 
     //getter
     public double getLargeur() {
         return largeur;
     }
-    public Mur getPosition() {
-        return mur;
+    public FenetrePosition getPosition() {
+        return position;
     }
 
     //setter
     public void setLargeur(double largeur) {
         this.largeur = largeur;
     }
-    public void setMur(Mur mur) {
-        this.mur = mur;
+    public void setFenetrePosition(FenetrePosition position) {
+        this.position = position;
     }
 }

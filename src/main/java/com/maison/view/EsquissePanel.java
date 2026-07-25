@@ -53,6 +53,33 @@ public class EsquissePanel extends JPanel {
 
         g2.drawRect(maisonX, maisonY, maisonLargeurPx, maisonLongueurPx);
         g2.drawString("MAISON", maisonX + 10, maisonY + 20);
+        g2.setStroke(new BasicStroke(1));
+
+        // portes de la maison
+        for(Porte porte : maison.getPortes()){
+            dessinerPorte(
+                    g2,
+                    porte,
+                    maisonX,
+                    maisonY,
+                    maisonLargeurPx,
+                    maisonLongueurPx,
+                    echelle
+            );
+        }
+
+// fenêtres de la maison
+        for(Fenetre fenetre : maison.getFenetres()){
+            dessinerFenetre(
+                    g2,
+                    fenetre,
+                    maisonX,
+                    maisonY,
+                    maisonLargeurPx,
+                    maisonLongueurPx,
+                    echelle
+            );
+        }
 
         //pieces
         for (Piece p : maison.getPieces()) {
@@ -150,8 +177,7 @@ public class EsquissePanel extends JPanel {
             int pieceLongueurPx,
             double echelle){
 
-        int largeurFenetrePx =
-                (int)(fenetre.getLargeur() * echelle);
+        int largeurFenetrePx = (int)(fenetre.getLargeur() * echelle);
 
         Color ancienneCouleur = g2.getColor();
         Stroke ancienStroke = g2.getStroke();

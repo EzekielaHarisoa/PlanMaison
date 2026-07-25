@@ -5,6 +5,7 @@ import com.maison.model.PieceDimension;
 import com.maison.model.PiecePositionDemande;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +24,16 @@ public class PiecePanel   {
     private JButton addFenetre;
     private JLabel nbrPorte;
     private JLabel nbrFenetre;
-    private JScrollPane Portes;
+    private JScrollPane porteCadre;
     private JSpinner longPiece;
     private JSpinner largPiece;
+    private JScrollPane fenetreCadre;
     private Piece pieceModel;
     private List<PortePanel> portes = new ArrayList<>();
+    private List<FenetrePanel> fenetres = new ArrayList<>();
 
-    int nbr = 0;
+    int nb1 = 0;
+    int nb2 = 0;
 
     private Runnable onPieceChanged;
 
@@ -81,7 +85,8 @@ public class PiecePanel   {
             );
         });
 
-
+        porteCadre.setPreferredSize(new Dimension(20, 60));
+        fenetreCadre.setPreferredSize(new Dimension(50, 60));
 
     }
 
@@ -97,6 +102,16 @@ public class PiecePanel   {
 
         double longueurP = ((Number) longPiece.getValue()).doubleValue();
         double largeurP = ((Number) largPiece.getValue()).doubleValue();
+        if(longueurP < 0 || largeurP < 0){
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "La longueur et la largeur de la pièce doivent être supérieures à 0.",
+                    "Erreur pièce",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
+        }
 
         pieceModel.setDimension(
                 new PieceDimension(longueurP, largeurP)
@@ -109,14 +124,17 @@ public class PiecePanel   {
         for(PortePanel pp : portes) {
             pieceModel.ajoutPorte(pp.getPorte());
         }
+        for(FenetrePanel fp : fenetres) {
+            pieceModel.ajoutFenetre(fp.getFenetre());
+        }
 
         return pieceModel;
     }
 
     public void ajouterPorte() {
-        nbr++;
-        nbrPorte.setText("Nombre = " + nbr);
-        PortePanel porte = new PortePanel(nbr);
+        nb1++;
+        nbrPorte.setText("Nombre = " + nb1);
+        PortePanel porte = new PortePanel(nb1);
         portes.add(porte);
         porteList.add(porte.getPanelPorte());
         porteList.revalidate();
@@ -124,18 +142,19 @@ public class PiecePanel   {
     }
 
     public void ajouterFenetre() {
-        nbr++;
-        nbrFenetre.setText("Nombre " + nbr);
-        FenetrePanel fenetre = new FenetrePanel(nbr);
+        nb2++;
+        nbrFenetre.setText("Nombre " + nb2);
+        FenetrePanel fenetre = new FenetrePanel(nb2);
+        fenetres.add(fenetre);
         fenetreList.add(fenetre.getFenetrePanel());
         fenetreList.revalidate();
         fenetreList.repaint();
     }
 
      public void suppressionPiece() {
-        nbr++;
-        PortePanel porte = new PortePanel(nbr);
-        fenetreList.remove(nbr);
+        nb1++;
+        PortePanel porte = new PortePanel(nb1);
+        fenetreList.remove(nb1);
         fenetreList.revalidate();
         fenetreList.repaint();
 

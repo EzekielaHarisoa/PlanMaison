@@ -6,6 +6,7 @@ import com.maison.model.Porte;
 import com.maison.model.PortePosition;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class PortePanel {
     private JLabel porteTitre;
@@ -23,6 +24,7 @@ public class PortePanel {
         this();
         porteTitre.setText("Porte " + numero);
 
+
     }
 
     public Porte getPorte() {
@@ -32,6 +34,7 @@ public class PortePanel {
         PortePosition position = (PortePosition) portePosition.getSelectedItem();
 
         return new Porte(largeur, position);
+
     }
 
     public JPanel getPanelPorte(){

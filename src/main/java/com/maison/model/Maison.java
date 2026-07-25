@@ -26,6 +26,8 @@ public class Maison {
         this.position = position;
         this.pieces = new ArrayList<>();
         this.contraintes = new ArrayList<>();
+        this.portes = new ArrayList<>();
+        this.fenetres = new ArrayList<>();
     }
 
     //ajout
@@ -33,6 +35,12 @@ public class Maison {
         pieces.add(piece);
     }
     public void ajoutContrainte(Contrainte contrainte) { contraintes.add(contrainte); }
+    public void ajoutPorte(Porte porte) {
+        portes.add(porte);
+    }
+    public void ajoutFenetre(Fenetre fenetre) {
+        fenetres.add(fenetre);
+    }
 
     //getter
     public double getLargeur() {
@@ -56,6 +64,12 @@ public class Maison {
     }
     public int getY() {
         return y;
+    }
+    public List<Porte> getPortes() {
+        return portes;
+    }
+    public List<Fenetre> getFenetres() {
+        return fenetres;
     }
 
     //setter
@@ -82,6 +96,14 @@ public class Maison {
     }
     public void setPosition(MaisonPosition position) {
         this.position = position;
+    }
+    private List<Fenetre> fenetres;
+    private List<Porte> portes;
+    public void setPortes(List<Porte> portes) {
+        this.portes = portes;
+    }
+    public void setFenetres(List<Fenetre> fenetres) {
+        this.fenetres = fenetres;
     }
 
     @Override
