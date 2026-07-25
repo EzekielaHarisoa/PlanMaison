@@ -1,18 +1,21 @@
 package com.maison.view;
 
 import com.maison.model.Mur;
+import com.maison.model.PiecePositionDemande;
 import com.maison.model.Porte;
+import com.maison.model.PortePosition;
 
 import javax.swing.*;
 
 public class PortePanel {
     private JLabel porteTitre;
-    private JComboBox comboBox1;
+    private JComboBox portePosition;
     private JButton supprimerPorteButton;
     private JPanel panelPorte;
+    private JSpinner porteLargeur;
 
     public PortePanel() {
-        comboBox1.setModel(new DefaultComboBoxModel<>(Mur.values()));
+        portePosition.setModel(new DefaultComboBoxModel<>(PortePosition.values()));
 
     }
 
@@ -20,6 +23,15 @@ public class PortePanel {
         this();
         porteTitre.setText("Porte " + numero);
 
+    }
+
+    public Porte getPorte() {
+
+        double largeur = ((Number) porteLargeur.getValue()).doubleValue();
+
+        PortePosition position = (PortePosition) portePosition.getSelectedItem();
+
+        return new Porte(largeur, position);
     }
 
     public JPanel getPanelPorte(){

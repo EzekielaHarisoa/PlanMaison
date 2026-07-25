@@ -117,6 +117,7 @@ public class GenerateurEsquise {
     }
 
     List<String> erreurs = new ArrayList<String>();
+
     private boolean verifierMaisonDansterrain(Maison maison) {
 
         boolean valide = true;
@@ -168,7 +169,6 @@ public class GenerateurEsquise {
         return valide;
 
     }
-
 
     public String getMessageErreur() {
         StringBuilder messageErreur = new StringBuilder();

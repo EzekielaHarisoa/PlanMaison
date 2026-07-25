@@ -5,6 +5,8 @@ import com.maison.model.PieceDimension;
 import com.maison.model.PiecePositionDemande;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PiecePanel   {
 
@@ -25,6 +27,8 @@ public class PiecePanel   {
     private JSpinner longPiece;
     private JSpinner largPiece;
     private Piece pieceModel;
+    private List<PortePanel> portes = new ArrayList<>();
+
     int nbr = 0;
 
     private Runnable onPieceChanged;
@@ -102,6 +106,10 @@ public class PiecePanel   {
                 (PiecePositionDemande) posiPiece.getSelectedItem()
         );
 
+        for(PortePanel pp : portes) {
+            pieceModel.ajoutPorte(pp.getPorte());
+        }
+
         return pieceModel;
     }
 
@@ -109,6 +117,7 @@ public class PiecePanel   {
         nbr++;
         nbrPorte.setText("Nombre = " + nbr);
         PortePanel porte = new PortePanel(nbr);
+        portes.add(porte);
         porteList.add(porte.getPanelPorte());
         porteList.revalidate();
         porteList.repaint();

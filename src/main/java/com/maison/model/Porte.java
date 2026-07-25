@@ -3,9 +3,9 @@ package com.maison.model;
 public class Porte {
 
     private double largeur;
-    private PiecePositionDemande position;
+    private PortePosition position;
 
-    public Porte(double largeur, PiecePositionDemande position) {
+    public Porte(double largeur, PortePosition position) {
         this.largeur = largeur;
         this.position = position;
     }
@@ -14,7 +14,7 @@ public class Porte {
     public double getLargeur() {
         return largeur;
     }
-    public PiecePositionDemande getPosition() {
+    public PortePosition getPosition() {
         return position;
     }
 
@@ -22,7 +22,7 @@ public class Porte {
     public void setLargeur(double largeur) {
         this.largeur = largeur;
     }
-    public void setPosition(PiecePositionDemande position) {
+    public void setPosition(PortePosition position) {
         this.position = position;
     }
 
