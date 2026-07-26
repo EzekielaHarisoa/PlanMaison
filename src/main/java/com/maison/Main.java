@@ -10,9 +10,14 @@ public class Main {
 
         JFrame frame = new JFrame("Saisie Client");
 
-        SaisieClient formulaire = new SaisieClient();
+        SaisieClient sc = new SaisieClient();
 
-        frame.setContentPane(formulaire.getSaisieClient1());
+        sc.setFrameSaisie(frame);
+
+        frame.setContentPane(sc.getSaisieClient1());
+
+        frame.setSize(600,600);
+
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

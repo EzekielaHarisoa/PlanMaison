@@ -17,6 +17,11 @@ public class PortePanel {
 
     public PortePanel() {
         portePosition.setModel(new DefaultComboBoxModel<>(PortePosition.values()));
+        supprimerPorteButton.addActionListener(e -> {
+            if(onDelete != null) {
+                onDelete.run();
+            }
+        });
 
     }
 
@@ -30,6 +35,16 @@ public class PortePanel {
     public Porte getPorte() {
 
         double largeur = ((Number) porteLargeur.getValue()).doubleValue();
+        if(largeur <= 0){
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "La largeur de la porte doit être supérieure à 0.",
+                    "Erreur porte",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return null;
+        }
 
         PortePosition position = (PortePosition) portePosition.getSelectedItem();
 
@@ -41,4 +56,10 @@ public class PortePanel {
         System.out.println(panelPorte);
         return panelPorte;
     }
+
+    private Runnable onDelete;
+    public void setOnDelete(Runnable onDelete) {
+        this.onDelete = onDelete;
+    }
+
 }

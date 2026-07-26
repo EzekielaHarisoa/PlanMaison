@@ -16,6 +16,7 @@ public class ContraintePanel {
     private JLabel titlePieceADeplacer;
     private JLabel titleContrainteLabel;
     private JPanel panelContrainte;
+    private JButton supprimerContrainte;
 
     private JComboBox<Piece> pieceReference;
     private JComboBox<Piece> pieceADeplacer;
@@ -31,6 +32,11 @@ public class ContraintePanel {
         titlePieceReference.setText(c.getP1().toString());
         titleContrainteLabel.setText(c.getTypeRelation().toString());
         titlePieceADeplacer.setText(c.getP2().toString());
+        supprimerContrainte.addActionListener(e -> {
+            if(onDelete != null ) {
+                 onDelete.run();
+            }
+        });
 
     }
 
@@ -38,22 +44,15 @@ public class ContraintePanel {
         return contrainte;
     }
 
-    public void chargerPiece(List<Piece> pieces) {
-
-        pieceReference.removeAllItems();
-        pieceADeplacer.removeAllItems();
-
-        for (Piece p : pieces) {
-            pieceReference.addItem(p);
-            pieceADeplacer.addItem(p);
-        }
-
-    }
-
     public JPanel getPanelContrainte() {
 
         return panelContrainte;
 
+    }
+
+    private Runnable onDelete;
+    public void setOnDelete(Runnable onDelete) {
+        this.onDelete = onDelete;
     }
 
 

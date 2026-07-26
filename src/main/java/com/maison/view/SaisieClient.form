@@ -149,13 +149,6 @@
                       <text value="Ajouter une piece"/>
                     </properties>
                   </component>
-                  <component id="44083" class="javax.swing.JButton" binding="actualiserButton" default-binding="true">
-                    <constraints/>
-                    <properties>
-                      <horizontalAlignment value="4"/>
-                      <text value="actualiser"/>
-                    </properties>
-                  </component>
                   <component id="ac2be" class="javax.swing.JButton" binding="genererButton" default-binding="true">
                     <constraints/>
                     <properties>

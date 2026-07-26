@@ -1,8 +1,6 @@
 package com.maison.view;
 
-import com.maison.model.Piece;
-import com.maison.model.PieceDimension;
-import com.maison.model.PiecePositionDemande;
+import com.maison.model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,6 +86,13 @@ public class PiecePanel   {
         porteCadre.setPreferredSize(new Dimension(20, 60));
         fenetreCadre.setPreferredSize(new Dimension(50, 60));
 
+        supprimerCettePieceButton.addActionListener(e -> {
+            if(onDelete != null) {
+                onDelete.run();
+            }
+        });
+
+
     }
 
     public JPanel getPanelPiece() {
@@ -102,8 +107,8 @@ public class PiecePanel   {
 
         double longueurP = ((Number) longPiece.getValue()).doubleValue();
         double largeurP = ((Number) largPiece.getValue()).doubleValue();
-        if(longueurP < 0 || largeurP < 0){
 
+        if(longueurP < 0 || largeurP < 0){
             JOptionPane.showMessageDialog(
                     null,
                     "La longueur et la largeur de la pièce doivent être supérieures à 0.",
@@ -113,19 +118,34 @@ public class PiecePanel   {
             return null;
         }
 
-        pieceModel.setDimension(
-                new PieceDimension(longueurP, largeurP)
-        );
+        pieceModel.setDimension(new PieceDimension(longueurP, largeurP));
 
-        pieceModel.setPiecePositionDemande(
-                (PiecePositionDemande) posiPiece.getSelectedItem()
-        );
+        pieceModel.setPiecePositionDemande((PiecePositionDemande) posiPiece.getSelectedItem());
 
+        pieceModel.getPortes().clear();
         for(PortePanel pp : portes) {
-            pieceModel.ajoutPorte(pp.getPorte());
+
+            Porte porte = pp.getPorte();
+
+            if(porte != null){
+                pieceModel.ajoutPorte(porte);
+            }
+            else{
+                return null;
+            }
         }
+
+        pieceModel.getFenetres().clear();
         for(FenetrePanel fp : fenetres) {
-            pieceModel.ajoutFenetre(fp.getFenetre());
+
+            Fenetre fenetre = fp.getFenetre();
+
+            if(fenetre != null){
+                pieceModel.ajoutFenetre(fenetre);
+            }
+            else{
+                return null;
+            }
         }
 
         return pieceModel;
@@ -134,9 +154,23 @@ public class PiecePanel   {
     public void ajouterPorte() {
         nb1++;
         nbrPorte.setText("Nombre = " + nb1);
+
         PortePanel porte = new PortePanel(nb1);
+
+        porte.setOnDelete(() -> {
+
+            portes.remove(porte);
+            porteList.remove(porte.getPanelPorte());
+
+            nbrPorte.setText("Nombre = " + portes.size());
+
+            porteList.revalidate();
+            porteList.repaint();
+        });
+
         portes.add(porte);
         porteList.add(porte.getPanelPorte());
+
         porteList.revalidate();
         porteList.repaint();
     }
@@ -144,7 +178,20 @@ public class PiecePanel   {
     public void ajouterFenetre() {
         nb2++;
         nbrFenetre.setText("Nombre " + nb2);
+
         FenetrePanel fenetre = new FenetrePanel(nb2);
+
+        fenetre.setOnDelete(() -> {
+
+            fenetres.remove(fenetre);
+            fenetreList.remove(fenetre.getFenetrePanel());
+
+            nbrPorte.setText("Nombre = " + fenetres.size());
+
+            fenetreList.revalidate();
+            fenetreList.repaint();
+        });
+
         fenetres.add(fenetre);
         fenetreList.add(fenetre.getFenetrePanel());
         fenetreList.revalidate();
@@ -160,4 +207,8 @@ public class PiecePanel   {
 
      }
 
+    private Runnable onDelete;
+    public void setOnDelete(Runnable onDelete) {
+        this.onDelete = onDelete;
+    }
 }

@@ -30,13 +30,13 @@ public class SaisieClient {
     private JSpinner largTerrain;
     private JSpinner longMaison;
     private JSpinner largMaison;
-    private JButton actualiserButton;
     private JButton addPorteMaison;
     private JPanel portemaisonList;
     private JButton addFenetreMaison;
     private JPanel denetreMaisonList;
     private JPanel porteCadre;
     private JScrollPane fenetreCadre;
+    private JFrame frameSaisie;
     private List<PiecePanel> pieces = new ArrayList<>();
     private List<Contrainte> contraintes = new ArrayList<>();
     private List<PortePanel> portesMaison = new ArrayList<>();
@@ -88,6 +88,16 @@ public class SaisieClient {
 
         PiecePanel piece = new PiecePanel(nbPiece);
 
+        piece.setOnDelete(() -> {
+            pieces.remove(piece);
+            panelList.remove(piece.getPanelPiece());
+
+            panelList.revalidate();
+            panelList.repaint();
+
+            mettreAJourComboPieces();
+        });
+
         piece.setOnPieceChanged(() -> mettreAJourComboPieces());
 
         pieces.add(piece);
@@ -118,7 +128,7 @@ public class SaisieClient {
 
     public void ajouterContrainte() {
 
-        if(contrainteRefference.getSelectedItem()==null || contrainteSecondPiece.getSelectedItem()==null) {
+        if(contrainteRefference.getSelectedItem() == null || contrainteSecondPiece.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Choisissez deux pièces");
             return;
         }
@@ -144,10 +154,18 @@ public class SaisieClient {
         }
 
         Contrainte c = new Contrainte(p1, p2, pd, pr);
+
         nbContr++;
         contraintes.add(c);
 
         ContraintePanel panel = new ContraintePanel(nbContr,c);
+        panel.setOnDelete(() -> {
+            contraintes.remove(c);
+            contrainteList.remove(panel.getPanelContrainte());
+
+            contrainteList.revalidate();
+            contrainteList.repaint();
+        });
 
         contrainteList.add(panel.getPanelContrainte());
 
@@ -181,25 +199,39 @@ public class SaisieClient {
 
     public void ajouterPorteMaison() {
 
-        PortePanel portePanel = new PortePanel(
-                portesMaison.size() + 1
-        );
+        PortePanel portePanel = new PortePanel(portesMaison.size() + 1);
+
+        portePanel.setOnDelete(() -> {
+            portesMaison.remove(portePanel);
+            portemaisonList.remove(portePanel.getPanelPorte());
+
+            portemaisonList.revalidate();
+            portemaisonList.repaint();
+        });
 
         portesMaison.add(portePanel);
 
-        portemaisonList.add(
-                portePanel.getPanelPorte()
-        );
+        portemaisonList.add(portePanel.getPanelPorte());
 
         portemaisonList.revalidate();
         portemaisonList.repaint();
-        SwingUtilities.getWindowAncestor(portemaisonList)
-                .revalidate();
+
+        SwingUtilities.getWindowAncestor(portemaisonList).revalidate();
+
     }
 
     public void ajouterFenetreMaison() {
 
         FenetrePanel fenetrePanel = new FenetrePanel(fenetreMaison.size() + 1);
+
+        fenetrePanel.setOnDelete(() -> {
+
+            fenetreMaison.remove(fenetrePanel);
+            denetreMaisonList.remove(fenetrePanel.getFenetrePanel());
+
+            denetreMaisonList.revalidate();
+            denetreMaisonList.repaint();
+        });
 
         fenetreMaison.add(fenetrePanel);
         denetreMaisonList.add(fenetrePanel.getFenetrePanel());
@@ -209,10 +241,12 @@ public class SaisieClient {
 
     public void afficheEsquisse() {
 
+        frameSaisie.setVisible(false);
         JFrame frame = new JFrame("Esquisse");
 
         double longueurT = ((Number) longTerrain.getValue()).doubleValue();
         double largeurT = ((Number) largTerrain.getValue()).doubleValue();
+
         if(longueurT <= 0 || largeurT <= 0) {
 
             JOptionPane.showMessageDialog(
@@ -228,6 +262,7 @@ public class SaisieClient {
 
         double longueurM = ((Number) longMaison.getValue()).doubleValue();
         double largeurM = ((Number) largMaison.getValue()).doubleValue();
+
         if(longueurM <= 0 || largeurM <= 0) {
 
             JOptionPane.showMessageDialog(
@@ -246,11 +281,9 @@ public class SaisieClient {
         for(PortePanel pp : portesMaison) {
             maison.ajoutPorte(pp.getPorte());
         }
-
         for(FenetrePanel fp : fenetreMaison) {
             maison.ajoutFenetre(fp.getFenetre());
         }
-
         for(PiecePanel pp : pieces) {
 
             Piece p = pp.getPiece();
@@ -267,33 +300,37 @@ public class SaisieClient {
 
         GenerateurEsquise generateur = new GenerateurEsquise();
 
-        if(generateur.generer(maison)){
+        if(generateur.generer(maison)) {
+
+            frameSaisie.setVisible(false);
 
             EsquissePanel ep = new EsquissePanel(terrain, maison);
-            frame.add(ep);
-            frame.setSize(800,600);
-            frame.setLocationRelativeTo(null);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setVisible(true);
 
+            JFrame frameEsquisse = new JFrame("Esquisse");
+            frameEsquisse.setLayout(new BorderLayout());
+
+            frameEsquisse.add(ep, BorderLayout.CENTER);
+
+            JButton btnModifier = new JButton("Modifier");
+
+            JPanel panneauBas = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            panneauBas.add(btnModifier);
+
+            frameEsquisse.add(panneauBas, BorderLayout.SOUTH);
+
+            btnModifier.addActionListener(e -> {
+                frameEsquisse.dispose();
+                frameSaisie.setVisible(true);
+            });
         }
         else{
-
-            JOptionPane.showMessageDialog(
-                    null,
-                    generateur.getMessageErreur(),
-                    "Plan invalide",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, generateur.getMessageErreur(), "Plan invalide", JOptionPane.ERROR_MESSAGE);
         }
-        System.out.println(
-                "Nb portes = " + portesMaison.size()
-        );
-        System.out.println(
-                "Hauteur pref = " +
-                        portemaisonList.getPreferredSize().height
-        );
 
+    }
+
+    public void setFrameSaisie(JFrame frameSaisie) {
+        this.frameSaisie = frameSaisie;
     }
 
 }
