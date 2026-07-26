@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.maison.view.PortePanel">
   <grid id="27dc6" binding="panelPorte" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="515" height="50"/>
+      <xy x="20" y="20" width="615" height="50"/>
     </constraints>
     <properties/>
     <border type="none" title=""/>
@@ -32,6 +32,16 @@
             </properties>
           </component>
           <component id="5894c" class="javax.swing.JSpinner" binding="porteLargeur">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="5181a" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="Place"/>
+            </properties>
+          </component>
+          <component id="753e1" class="javax.swing.JComboBox" binding="portePlace">
             <constraints/>
             <properties/>
           </component>

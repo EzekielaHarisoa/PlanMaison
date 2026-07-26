@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.maison.view.PiecePanel">
   <grid id="27dc6" binding="panelPiece" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="11" width="784" height="447"/>
+      <xy x="20" y="11" width="784" height="466"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -78,7 +78,7 @@
           <grid id="9f486" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="10" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
               <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties/>
@@ -175,32 +175,6 @@
               </grid>
             </children>
           </scrollpane>
-          <scrollpane id="90942" binding="fenetreCadre">
-            <constraints>
-              <grid row="7" column="6" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="1.0" weighty="0.0"/>
-            </constraints>
-            <properties/>
-            <border type="none" title=""/>
-            <children>
-              <grid id="ed8a5" binding="fenetreList" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
-                <constraints/>
-                <properties/>
-                <border type="none"/>
-                <children/>
-              </grid>
-            </children>
-          </scrollpane>
-          <component id="ca07e" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="7" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <text value="Nombre Fenetre"/>
-            </properties>
-          </component>
           <component id="5cf0b" class="javax.swing.JLabel" binding="nbrPorte">
             <constraints>
               <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
@@ -216,16 +190,7 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
-              <text value="Nombre = 0"/>
-            </properties>
-          </component>
-          <component id="826dd" class="javax.swing.JButton" binding="addFenetre">
-            <constraints>
-              <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <text value="add"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="a98b3" class="javax.swing.JButton" binding="addButton" default-binding="true">

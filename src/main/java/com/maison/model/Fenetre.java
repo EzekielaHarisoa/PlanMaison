@@ -4,10 +4,26 @@ public class Fenetre {
 
     private double largeur;
     private FenetrePosition position;
+    private double distanceMur;
 
-    public Fenetre(double largeur, FenetrePosition position) {
+    public FenetrePlace getPlace() {
+        return place;
+    }
+
+    public void setPlace(FenetrePlace place) {
+        this.place = place;
+    }
+
+    public void setPosition(FenetrePosition position) {
+        this.position = position;
+    }
+
+    private FenetrePlace place;
+
+    public Fenetre(double largeur, FenetrePosition position, FenetrePlace place) {
         this.largeur = largeur;
         this.position = position;
+        this.place = place;
     }
 
     //getter
@@ -17,6 +33,9 @@ public class Fenetre {
     public FenetrePosition getPosition() {
         return position;
     }
+    public double getDistanceMur() {
+        return distanceMur;
+    }
 
     //setter
     public void setLargeur(double largeur) {
@@ -25,4 +44,8 @@ public class Fenetre {
     public void setFenetrePosition(FenetrePosition position) {
         this.position = position;
     }
+    public void setDistanceMur(double distanceMur) {
+        this.distanceMur = distanceMur;
+    }
+
 }

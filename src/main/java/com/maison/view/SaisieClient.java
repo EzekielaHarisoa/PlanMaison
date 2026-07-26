@@ -17,7 +17,6 @@ public class SaisieClient {
     private JButton genererButton;
 
     private JPanel panelList;
-    private JLabel surfaceTerrainTitre;
     private JLabel labelMaisonPosition;
     private JComboBox contrainteRefference;
     private JComboBox contrainteRelation;
@@ -71,6 +70,11 @@ public class SaisieClient {
         denetreMaisonList.setLayout(new BoxLayout(denetreMaisonList, BoxLayout.Y_AXIS));
         porteCadre.setPreferredSize(new Dimension(100, 30));
         fenetreCadre.setPreferredSize(new Dimension(100, 30));
+        longTerrain.setModel(  new SpinnerNumberModel(1.0, 0.0, 100.0, 0.1));
+        largTerrain.setModel(  new SpinnerNumberModel(1.0, 0.0, 100.0, 0.1));
+        longMaison.setModel(  new SpinnerNumberModel(1.0, 0.0, 100.0, 0.1));
+        largMaison.setModel(  new SpinnerNumberModel(1.0, 0.0, 100.0, 0.1));
+
 
     }
 
@@ -241,14 +245,10 @@ public class SaisieClient {
 
     public void afficheEsquisse() {
 
-        frameSaisie.setVisible(false);
-        JFrame frame = new JFrame("Esquisse");
-
         double longueurT = ((Number) longTerrain.getValue()).doubleValue();
         double largeurT = ((Number) largTerrain.getValue()).doubleValue();
 
-        if(longueurT <= 0 || largeurT <= 0) {
-
+        if (longueurT < 0 || largeurT < 0) {
             JOptionPane.showMessageDialog(
                     null,
                     "La longueur et la largeur du terrain doivent être supérieures à 0.",
@@ -258,13 +258,12 @@ public class SaisieClient {
             return;
         }
 
-        Terrain terrain = new Terrain(longueurT,largeurT);
+        Terrain terrain = new Terrain(longueurT, largeurT);
 
         double longueurM = ((Number) longMaison.getValue()).doubleValue();
         double largeurM = ((Number) largMaison.getValue()).doubleValue();
 
-        if(longueurM <= 0 || largeurM <= 0) {
-
+        if (longueurM < 0 || largeurM < 0) {
             JOptionPane.showMessageDialog(
                     null,
                     "Les dimensions de la maison doivent être positives.",
@@ -278,55 +277,116 @@ public class SaisieClient {
 
         Maison maison = new Maison(longueurM, largeurM, terrain, positionM);
 
-        for(PortePanel pp : portesMaison) {
-            maison.ajoutPorte(pp.getPorte());
-        }
-        for(FenetrePanel fp : fenetreMaison) {
-            maison.ajoutFenetre(fp.getFenetre());
-        }
-        for(PiecePanel pp : pieces) {
+        // Validation des portes de maison
+        for (PortePanel pp : portesMaison) {
+            Porte porte = pp.getPorte();
 
-            Piece p = pp.getPiece();
-            if(p != null){
-                maison.ajoutPiece(p);
+            if (porte == null) {
+                return;
             }
 
+            maison.ajoutPorte(porte);
         }
-        for(Contrainte c : contraintes) {
 
+        // Validation des fenêtres de maison
+        // Validation des fenêtres de maison
+        for (FenetrePanel fp : fenetreMaison) {
+
+            Fenetre fenetre = fp.getFenetre();
+
+            if (fenetre == null) {
+                return;
+            }
+
+            if(maison.verifierCollisionPorteFenetreMaison(fenetre)) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Une porte et une fenêtre de la maison occupent le même emplacement.",
+                        "Collision",
+                        JOptionPane.ERROR_MESSAGE
+                );
+
+                return;
+            }
+
+            maison.ajoutFenetre(fenetre);
+        }
+
+        // Validation des pièces
+        for (PiecePanel pp : pieces) {
+
+            Piece p = pp.getPiece();
+
+            if (p == null) {
+                return;
+            }
+
+            for(Porte portePiece : p.getPortesInterrieur()) {
+
+                if(maison.verifierCollisionPorteMaison(portePiece)) {
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Une porte de la pièce est au même emplacement qu'une porte de la maison.",
+                            "Collision détectée",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+
+                    return;
+                }
+            }
+
+            maison.ajoutPiece(p);
+        }
+
+        // Contraintes
+        for (Contrainte c : contraintes) {
             maison.ajoutContrainte(c);
-
         }
 
         GenerateurEsquise generateur = new GenerateurEsquise();
 
-        if(generateur.generer(maison)) {
+        if (!generateur.generer(maison)) {
 
-            frameSaisie.setVisible(false);
+            JOptionPane.showMessageDialog(
+                    null,
+                    generateur.getMessageErreur(),
+                    "Plan invalide",
+                    JOptionPane.ERROR_MESSAGE
+            );
 
-            EsquissePanel ep = new EsquissePanel(terrain, maison);
-
-            JFrame frameEsquisse = new JFrame("Esquisse");
-            frameEsquisse.setLayout(new BorderLayout());
-
-            frameEsquisse.add(ep, BorderLayout.CENTER);
-
-            JButton btnModifier = new JButton("Modifier");
-
-            JPanel panneauBas = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            panneauBas.add(btnModifier);
-
-            frameEsquisse.add(panneauBas, BorderLayout.SOUTH);
-
-            btnModifier.addActionListener(e -> {
-                frameEsquisse.dispose();
-                frameSaisie.setVisible(true);
-            });
-        }
-        else{
-            JOptionPane.showMessageDialog(null, generateur.getMessageErreur(), "Plan invalide", JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
+        frameSaisie.setVisible(false);
+
+        EsquissePanel ep = new EsquissePanel(terrain, maison);
+
+        JFrame frameEsquisse = new JFrame("Esquisse");
+        frameEsquisse.setLayout(new BorderLayout());
+
+        frameEsquisse.add(ep, BorderLayout.CENTER);
+
+        JButton btnModifier = new JButton("Modifier");
+
+        JPanel panneauBas = new JPanel(
+                new FlowLayout(FlowLayout.LEFT)
+        );
+
+        panneauBas.add(btnModifier);
+
+        frameEsquisse.add(panneauBas, BorderLayout.SOUTH);
+
+        btnModifier.addActionListener(e -> {
+            frameEsquisse.dispose();
+            frameSaisie.setVisible(true);
+        });
+
+        frameEsquisse.setSize(800, 600);
+        frameEsquisse.setLocationRelativeTo(null);
+        frameEsquisse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frameEsquisse.setVisible(true);
     }
 
     public void setFrameSaisie(JFrame frameSaisie) {

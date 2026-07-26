@@ -26,7 +26,7 @@ public class Maison {
         this.position = position;
         this.pieces = new ArrayList<>();
         this.contraintes = new ArrayList<>();
-        this.portes = new ArrayList<>();
+        this.portesExterrieur = new ArrayList<>();
         this.fenetres = new ArrayList<>();
     }
 
@@ -36,7 +36,7 @@ public class Maison {
     }
     public void ajoutContrainte(Contrainte contrainte) { contraintes.add(contrainte); }
     public void ajoutPorte(Porte porte) {
-        portes.add(porte);
+        portesExterrieur.add(porte);
     }
     public void ajoutFenetre(Fenetre fenetre) {
         fenetres.add(fenetre);
@@ -65,8 +65,8 @@ public class Maison {
     public int getY() {
         return y;
     }
-    public List<Porte> getPortes() {
-        return portes;
+    public List<Porte> getPortesExterrieur() {
+        return portesExterrieur;
     }
     public List<Fenetre> getFenetres() {
         return fenetres;
@@ -98,12 +98,48 @@ public class Maison {
         this.position = position;
     }
     private List<Fenetre> fenetres;
-    private List<Porte> portes;
-    public void setPortes(List<Porte> portes) {
-        this.portes = portes;
+    private List<Porte> portesExterrieur;
+    public void setPortesExterrieur(List<Porte> portesExterrieur) {
+        this.portesExterrieur = portesExterrieur;
     }
     public void setFenetres(List<Fenetre> fenetres) {
         this.fenetres = fenetres;
+    }
+
+    public boolean verifierCollisionPorteMaison(Porte portePiece) {
+
+        for(Porte porteMaison : getPortesExterrieur()) {
+
+            if(portePiece.getPosition() == porteMaison.getPosition()
+                    &&
+                    portePiece.getPlace() == porteMaison.getPlace()) {
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean verifierCollisionPorteFenetreMaison(Fenetre nouvelleFenetre) {
+
+        for(Porte porte : portesExterrieur) {
+
+            if(porte.getPosition().name()
+                    .equals(nouvelleFenetre.getPosition().name())
+                    &&
+                    porte.getPlace().name().equals(nouvelleFenetre.getPlace().name()) ) {
+
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+    public boolean verifierCollisionPorteFenetre(Porte porte, Fenetre fenetre) {
+        return porte.getPosition().name().equals(fenetre.getPosition().name())
+                && porte.getPlace().name().equals( fenetre.getPlace().name());
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 public class Piece {
 
     private String nom;
-    private String type;
+    private PieceType type;
 
     private PieceDimension pieceDimension;
     private PiecePosition piecePosition;
@@ -14,21 +14,21 @@ public class Piece {
     private PiecePositionDemande piecePositionDemande;
 
     private List<Fenetre> fenetres;
-    private List<Porte> portes;
+    private List<Porte> portesInterrieur;
 
     //contructeur
-    public Piece(String nom, String type, PieceDimension pieceDimension,PiecePositionDemande piecePositionDemande) {
+    public Piece(String nom, PieceType type, PieceDimension pieceDimension,PiecePositionDemande piecePositionDemande) {
         this.nom = nom;
         this.type = type;
         this.pieceDimension = pieceDimension;
         this.piecePosition = new PiecePosition(0,0);
         this.piecePositionDemande = piecePositionDemande;
-        this.portes = new ArrayList<>();
+        this.portesInterrieur = new ArrayList<>();
         this.fenetres = new ArrayList<>();
     }
 
     //getter
-    public String getType() {
+    public PieceType getType() {
         return type;
     }
     public String getNom() {
@@ -41,8 +41,8 @@ public class Piece {
     public List<Fenetre> getFenetres() {
         return fenetres;
     }
-    public List<Porte> getPortes() {
-        return portes;
+    public List<Porte> getPortesInterrieur() {
+        return portesInterrieur;
     }
     public PieceDimension getPieceDimension() {
         return pieceDimension;
@@ -58,7 +58,7 @@ public class Piece {
     public void setNom(String nom) {
         this.nom = nom;
     }
-    public void setType(String type) {
+    public void setType(PieceType type) {
         this.type = type;
     }
     public void setDimension(PieceDimension pieceDimension) {
@@ -70,8 +70,8 @@ public class Piece {
     public void setFenetres(List<Fenetre> fenetres) {
         this.fenetres = fenetres;
     }
-    public void setPortes(List<Porte> portes) {
-        this.portes = portes;
+    public void setPortesInterrieur(List<Porte> portesInterrieur) {
+        this.portesInterrieur = portesInterrieur;
     }
     public void setPiecePosition(PiecePosition piecePosition) {
         this.piecePosition = piecePosition;
@@ -85,11 +85,48 @@ public class Piece {
 
     //ajout d'element
     public void ajoutPorte(Porte porte) {
-        portes.add(porte);
+        portesInterrieur.add(porte);
     }
 
-    public void ajoutFenetre(Fenetre fenetre) {
-        fenetres.add(fenetre);
+    //verification collision
+    public boolean verifierCollisionPorte(Porte nouvellePorte) {
+
+        for(Porte porte : portesInterrieur) {
+
+            if(porte.getPosition() == nouvellePorte.getPosition()
+                    &&
+                    porte.getPlace() == nouvellePorte.getPlace()) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public boolean verifierCollisionPorteFenetre(Fenetre nouvelleFenetre) {
+
+        for(Porte porte : portesInterrieur) {
+
+            if(porte.getPosition().name().equals( nouvelleFenetre.getPosition().name())
+                    &&
+                    porte.getPlace().name().equals( nouvelleFenetre.getPlace().name())) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public boolean verifierCollisionFenetre(Fenetre nouvelleFenetre) {
+
+        for(Fenetre fenetre : fenetres) {
+
+            if(fenetre.getPosition() == nouvelleFenetre.getPosition()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -98,7 +135,7 @@ public class Piece {
         if(nom != null && !nom.isBlank()) {
             return nom;
         }
-        return type;
+        return  type.toString();
     }
 
 }

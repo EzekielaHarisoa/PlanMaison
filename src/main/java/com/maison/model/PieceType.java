@@ -1,4 +1,9 @@
 package com.maison.model;
 
-public class PieceType {
+public enum PieceType {
+    CUISINE,
+    SALON,
+    CHAMBRE,
+    SDB,
+    GARAGE
 }

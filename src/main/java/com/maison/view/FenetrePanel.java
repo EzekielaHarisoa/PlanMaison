@@ -1,8 +1,8 @@
 package com.maison.view;
 
 import com.maison.model.Fenetre;
+import com.maison.model.FenetrePlace;
 import com.maison.model.FenetrePosition;
-import com.maison.model.Porte;
 
 import javax.swing.*;
 
@@ -13,6 +13,7 @@ public class FenetrePanel {
     private JButton supprimFenetreButton;
     private JPanel fenetrePanel;
     private JSpinner fenetreLargeur;
+    private JComboBox placeFenetre;
 
     public FenetrePanel(int numero) {
 
@@ -25,8 +26,11 @@ public class FenetrePanel {
                     }
                 }
         );
+        placeFenetre.setModel(new DefaultComboBoxModel<>(FenetrePlace.values()));
+        fenetreLargeur.setModel( new SpinnerNumberModel(1.0, 0.0, 100.0, 0.1));
 
     }
+
     public JPanel getFenetrePanel() {
         return fenetrePanel;
     }
@@ -43,7 +47,9 @@ public class FenetrePanel {
         }
 
         FenetrePosition position = (FenetrePosition) fenetrePosition.getSelectedItem();
-        return new Fenetre(largeur,position);
+        FenetrePlace place = (FenetrePlace) placeFenetre.getSelectedItem();
+
+        return new Fenetre(largeur,position,place);
     }
 
     private Runnable onDelete;
